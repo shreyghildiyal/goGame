@@ -1,0 +1,4 @@
+{
+    "backgroundImage": "images/space.png",
+    "planetsFile": "data/planets.json"
+}

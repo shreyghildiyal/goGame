@@ -1,0 +1,34 @@
+[
+    {
+        "name": "planet1",
+        "x": 100,
+        "y": 100,
+        "imageLoc": "images/planet1.png",
+        "scale": 0.95,
+        "rotationRate": 0
+    },
+    {
+        "name": "planet2",
+        "x": 100,
+        "y": 120,
+        "imageLoc": "images/planet2.png",
+        "scale": 0.85,
+        "rotationRate": 0.1
+    },
+    {
+        "name": "planet3",
+        "x": 100,
+        "y": 140,
+        "imageLoc": "images/planet3.png",
+        "scale": 0.75,
+        "rotationRate": 0.01
+    },
+    {
+        "name": "planet4",
+        "x": 100,
+        "y": 160,
+        "imageLoc": "images/planet4.png",
+        "scale": 0.5,
+        "rotationRate": 0.001
+    }
+]
