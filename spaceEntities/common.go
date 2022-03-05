@@ -39,8 +39,7 @@ func DrawSpaceEntity(screen *ebiten.Image, camX, camY, camZoom float64, entity S
 		fmt.Println("font is nil")
 	} else {
 		screen.DrawImage(disp.Image, op)
-		// fmt.Printf("text location %d, %d\n", int(p.X), int(p.Y)+y+mplusNormalFont.Metrics().Height.Ceil())
-		text.Draw(screen, entity.GetName(), gametext.SpaceDisplayFont, int(textX), int(textY), config.GetConfig().Text.Colour)
+		text.Draw(screen, entity.GetName(), gametext.SpaceDisplayFont, int(textX+camX), int(textY+camY), config.GetConfig().Text.Colour)
 	}
 }
 
