@@ -2,6 +2,7 @@ package config
 
 import (
 	"encoding/json"
+	"image/color"
 	"io/ioutil"
 	"log"
 	"sync"
@@ -10,9 +11,15 @@ import (
 var config *Configuration
 var confMutex sync.Mutex
 
+type TextConf struct {
+	Colour color.RGBA `json:"colour"`
+	Size   int        `json:"size"`
+}
+
 type Configuration struct {
-	BackgroundImagePath string `json:"backgroundImage"`
-	PlanetsFile         string `json:"planetsFile"`
+	BackgroundImagePath string   `json:"backgroundImage"`
+	PlanetsFile         string   `json:"planetsFile"`
+	Text                TextConf `json:"text"`
 }
 
 func GetConfig() Configuration {

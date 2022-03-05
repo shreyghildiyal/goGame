@@ -6,13 +6,14 @@ import (
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	config "github.com/shreyghildiyal/goGame/configs"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 	"github.com/shreyghildiyal/goGame/planets"
 )
 
 const (
 	screenWidth  = 600
-	screenHeight = 400
+	screenHeight = 600
 
 	frameOX     = 0
 	frameOY     = 32
@@ -22,8 +23,8 @@ const (
 )
 
 type Game struct {
-	planets []planets.Planet
-	// background *ebiten.Image
+	planets    []planets.Planet
+	background *ebiten.Image
 	count      int
 	prevUpdate time.Time
 }
@@ -36,19 +37,30 @@ func (g *Game) Update() error {
 		g.planets[i].Update(dt)
 	}
 
-	g.prevUpdate.Add(dt)
+	g.prevUpdate = g.prevUpdate.Add(dt)
 	g.count++
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(-float64(frameWidth)/2, -float64(frameHeight)/2)
-	op.GeoM.Translate(screenWidth/2, screenHeight/2)
+	// op := &ebiten.DrawImageOptions{}
+	// op.GeoM.Translate(-float64(frameWidth)/2, -float64(frameHeight)/2)
+	// op.GeoM.Translate(screenWidth/2, screenHeight/2)
+
+	// g.planets[0].Draw(screen)
+
+	g.drawBackground(screen)
+	g.drawPlanets(screen)
+}
+
+func (g *Game) drawPlanets(screen *ebiten.Image) {
 	for _, p := range g.planets {
 		p.Draw(screen)
 	}
-	// g.planets[0].Draw(screen)
+}
+
+func (g *Game) drawBackground(screen *ebiten.Image) {
+	screen.DrawImage(g.background, nil)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
@@ -67,7 +79,7 @@ func GetImages(paths []string) []*ebiten.Image {
 func Newgame() *Game {
 	game := Game{}
 
-	// game.background = ebiten.NewImageFromImage(imageutils.GetImage(config.GetConfig().BackgroundImagePath))
+	game.background = ebiten.NewImageFromImage(imageutils.GetImage(config.GetConfig().BackgroundImagePath))
 	game.planets = planets.LoadPlanets()
 	game.prevUpdate = time.Now()
 	fmt.Println("Number of planets", len(game.planets))

@@ -1,0 +1,10 @@
+[
+    {
+        "name": "planet1",
+        "x": 100,
+        "y": 100,
+        "imageLoc": "images/planet1.png",
+        "scale": 0.95,
+        "rotationRate": 0
+    }
+]

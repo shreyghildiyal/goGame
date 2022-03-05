@@ -1,4 +1,14 @@
 {
     "backgroundImage": "images/space.png",
-    "planetsFile": "data/planets.json"
+    "planetsFile": "data/planetsSingle.json",
+    "text": {
+        "size": 18,
+        "colour": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+        }
+    }
+    
 }

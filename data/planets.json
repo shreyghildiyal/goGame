@@ -13,7 +13,7 @@
         "y": 120,
         "imageLoc": "images/planet2.png",
         "scale": 0.85,
-        "rotationRate": 0.1
+        "rotationRate": 1
     },
     {
         "name": "planet3",
@@ -21,7 +21,7 @@
         "y": 140,
         "imageLoc": "images/planet3.png",
         "scale": 0.75,
-        "rotationRate": 0.01
+        "rotationRate": 5
     },
     {
         "name": "planet4",
@@ -29,6 +29,6 @@
         "y": 160,
         "imageLoc": "images/planet4.png",
         "scale": 0.5,
-        "rotationRate": 0.001
+        "rotationRate": 10
     }
 ]
