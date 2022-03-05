@@ -7,6 +7,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	config "github.com/shreyghildiyal/goGame/configs"
+	"github.com/shreyghildiyal/goGame/gametext"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 	"github.com/shreyghildiyal/goGame/inputs"
 	"github.com/shreyghildiyal/goGame/spaceEntities"
@@ -33,7 +34,7 @@ type View struct {
 type Camera struct {
 	x    int
 	y    int
-	zoom int
+	zoom float64
 }
 
 type Game struct {
@@ -122,6 +123,7 @@ func Newgame() *Game {
 	game.planets = spaceEntities.LoadPlanets()
 	game.prevUpdate = time.Now()
 	game.currentView = &View{viewType: GalaxyView}
+	game.camera.zoom = 1
 	fmt.Println("Number of planets", len(game.planets))
 	return &game
 }
@@ -129,6 +131,7 @@ func Newgame() *Game {
 func main() {
 
 	imageutils.InitImageMaps()
+	gametext.InitFonts()
 	ebiten.SetWindowSize(screenWidth*2, screenHeight*2)
 	ebiten.SetWindowTitle("Animation (Ebiten Demo)")
 

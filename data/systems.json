@@ -4,6 +4,10 @@
         "x": 100,
         "y": 100,
         "starType": "redDwarf",
-        "id": 1
+        "id": 1,
+        "displayDetails": {
+            "baseHeight": 20,
+            "baseWidth": 20
+        }
     }
 ]

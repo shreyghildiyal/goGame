@@ -67,3 +67,7 @@ func initImageMap(imgmap map[string]*image.Image, pathMap map[string]string) {
 		imgmap[t] = &img
 	}
 }
+
+func GetScale() (float64, float64) {
+	return 1, 1
+}

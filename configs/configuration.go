@@ -14,6 +14,7 @@ var confMutex sync.Mutex
 type TextConf struct {
 	Colour color.RGBA `json:"colour"`
 	Size   int        `json:"size"`
+	Dpi    float64    `json:"dpi"`
 }
 
 type Configuration struct {

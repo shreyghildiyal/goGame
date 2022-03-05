@@ -3,13 +3,14 @@
     "planetsFile": "data/planetsSingle.json",
     "systemsFile": "data/systems.json",
     "text": {
-        "size": 18,
+        "size": 8,
         "colour": {
             "r": 255,
             "g": 255,
             "b": 255,
             "a": 255
-        }
+        },
+        "dpi": 120
     },
     "starImages": {
         "redDwarf": "images/spaceSprites/Sun_00000.png"
@@ -20,6 +21,5 @@
         "planetType3": "images/spaceSprites/Planet3.png",
         "planetType4": "images/spaceSprites/Planet4.png",
         "planetType5": "images/spaceSprites/Planet5.png"
-
     }
 }
