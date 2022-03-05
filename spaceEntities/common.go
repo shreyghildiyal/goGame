@@ -18,7 +18,7 @@ type SpaceEntity interface {
 	GetName() string
 }
 
-func DrawSpaceEntity(screen *ebiten.Image, camX, camY int, camZoom float64, entity SpaceEntity) {
+func DrawSpaceEntity(screen *ebiten.Image, camX, camY, camZoom float64, entity SpaceEntity) {
 
 	disp := entity.GetDisplay()
 
@@ -26,9 +26,10 @@ func DrawSpaceEntity(screen *ebiten.Image, camX, camY int, camZoom float64, enti
 	op := &ebiten.DrawImageOptions{}
 	op.GeoM.Translate(-float64(x/2), -float64(y/2))
 	// op.GeoM.Rotate(star.rotation)
-	op.GeoM.Translate(float64(x/2), float64(y/2))
+	// op.GeoM.Translate(float64(x/2), float64(y/2))
 	op.GeoM.Scale(disp.ScaleX*camZoom, disp.ScaleY*camZoom)
 	op.GeoM.Translate(entity.GetCoordinates())
+	op.GeoM.Translate(camX, camY)
 
 	textX, textY := GetTextPosition(gametext.SpaceDisplayFont, entity)
 

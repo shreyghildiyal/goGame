@@ -56,7 +56,7 @@ func LoadSystems() map[int]*System {
 	return systemsMap
 }
 
-func DrawWarpLines(screen *ebiten.Image, camX, camY int, zoom float64, stars map[int]*System) {
+func DrawWarpLines(screen *ebiten.Image, camX, camY, zoom float64, stars map[int]*System) {
 
 }
 
@@ -72,7 +72,7 @@ func (s *System) GetName() string {
 	return s.Name
 }
 
-func DrawStars(screen *ebiten.Image, camX, camY int, zoom float64, stars map[int]*System) {
+func DrawStars(screen *ebiten.Image, camX, camY, zoom float64, stars map[int]*System) {
 
 	for _, system := range stars {
 		DrawSpaceEntity(screen, camX, camY, zoom, system)

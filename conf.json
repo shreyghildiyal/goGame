@@ -21,5 +21,10 @@
         "planetType3": "images/spaceSprites/Planet3.png",
         "planetType4": "images/spaceSprites/Planet4.png",
         "planetType5": "images/spaceSprites/Planet5.png"
+    },
+    "camera": {
+        "speedX": 10,
+        "speedY": 10,
+        "speedZoom": 1.1
     }
 }

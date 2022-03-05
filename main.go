@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	config "github.com/shreyghildiyal/goGame/configs"
 	"github.com/shreyghildiyal/goGame/gametext"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
@@ -32,8 +33,8 @@ type View struct {
 }
 
 type Camera struct {
-	x    int
-	y    int
+	x    float64
+	y    float64
 	zoom float64
 }
 
@@ -51,11 +52,32 @@ type Game struct {
 	currentSystem *spaceEntities.System
 
 	camera Camera
+
+	keys []ebiten.Key
+}
+
+func (g *Game) handleKeyboardInput(dt time.Duration) {
+	var timeMulti float64 = float64(dt.Microseconds()) / 1000000
+	fmt.Println("time Multi", timeMulti)
+	fmt.Println("Speed", config.GetConfig().Camera.SpeedX, config.GetConfig().Camera.SpeedY)
+	if ebiten.IsKeyPressed(ebiten.KeyUp) {
+		g.camera.y -= config.GetConfig().Camera.SpeedY * timeMulti
+	} else if ebiten.IsKeyPressed(ebiten.KeyDown) {
+		g.camera.y += config.GetConfig().Camera.SpeedY * timeMulti
+	} else if ebiten.IsKeyPressed(ebiten.KeyLeft) {
+		g.camera.x -= config.GetConfig().Camera.SpeedX * timeMulti
+	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
+		g.camera.x += config.GetConfig().Camera.SpeedX * timeMulti
+	}
 }
 
 func (g *Game) Update() error {
 
 	dt := time.Since(g.prevUpdate)
+
+	g.handleKeyboardInput(dt)
+
+	g.keys = inpututil.AppendPressedKeys(g.keys[:0])
 
 	for i := 0; i < len(g.planets); i++ {
 		g.planets[i].Update(dt)

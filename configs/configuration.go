@@ -17,6 +17,12 @@ type TextConf struct {
 	Dpi    float64    `json:"dpi"`
 }
 
+type Camera struct {
+	SpeedX    float64 `json:"SpeedX"`
+	SpeedY    float64 `json:"SpeedY"`
+	SpeedZoom float64 `json:"SpeedZoom"`
+}
+
 type Configuration struct {
 	BackgroundImagePath string            `json:"backgroundImage"`
 	PlanetsFile         string            `json:"planetsFile"`
@@ -24,6 +30,7 @@ type Configuration struct {
 	Text                TextConf          `json:"text"`
 	PlanetImages        map[string]string `json:"planetImages"`
 	StarImages          map[string]string `json:"starImages"`
+	Camera              Camera            `json:"camera"`
 }
 
 func GetConfig() Configuration {
