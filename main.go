@@ -8,53 +8,88 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	config "github.com/shreyghildiyal/goGame/configs"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
-	"github.com/shreyghildiyal/goGame/planets"
+	"github.com/shreyghildiyal/goGame/inputs"
+	"github.com/shreyghildiyal/goGame/spaceEntities"
 )
 
 const (
 	screenWidth  = 600
 	screenHeight = 600
-
-	frameOX     = 0
-	frameOY     = 32
-	frameWidth  = 32
-	frameHeight = 32
-	frameNum    = 8
 )
 
+type ViewType string
+
+const (
+	MenuView   ViewType = "Menu"
+	GalaxyView ViewType = "Galaxy"
+	SystemView ViewType = "System"
+)
+
+type View struct {
+	viewType ViewType
+	extra    interface{}
+}
+
+type Camera struct {
+	x    int
+	y    int
+	zoom int
+}
+
 type Game struct {
-	planets    []planets.Planet
+	planets    map[int]*spaceEntities.Planet
+	systems    map[int]*spaceEntities.System
 	background *ebiten.Image
-	count      int
+	// count      int
 	prevUpdate time.Time
+
+	mouse inputs.Mouse
+
+	currentView *View
+
+	currentSystem *spaceEntities.System
+
+	camera Camera
 }
 
 func (g *Game) Update() error {
 
 	dt := time.Since(g.prevUpdate)
-	// fmt.Println("delta time", dt.Milliseconds())
+
 	for i := 0; i < len(g.planets); i++ {
 		g.planets[i].Update(dt)
 	}
 
 	g.prevUpdate = g.prevUpdate.Add(dt)
-	g.count++
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	// op := &ebiten.DrawImageOptions{}
-	// op.GeoM.Translate(-float64(frameWidth)/2, -float64(frameHeight)/2)
-	// op.GeoM.Translate(screenWidth/2, screenHeight/2)
-
-	// g.planets[0].Draw(screen)
 
 	g.drawBackground(screen)
-	g.drawPlanets(screen)
+
+	switch g.currentView.viewType {
+	case GalaxyView:
+		g.drawGalaxy(screen)
+	case SystemView:
+		g.drawSystem(screen, g.currentSystem)
+	case MenuView:
+		g.drawMenu(screen)
+	}
+
 }
 
-func (g *Game) drawPlanets(screen *ebiten.Image) {
-	for _, p := range g.planets {
+func (g *Game) drawGalaxy(screen *ebiten.Image) {
+	spaceEntities.DrawWarpLines(screen, g.camera.x, g.camera.y, g.camera.zoom, g.systems)
+	spaceEntities.DrawStars(screen, g.camera.x, g.camera.y, g.camera.zoom, g.systems)
+}
+
+func (g *Game) drawMenu(screen *ebiten.Image) {
+
+}
+
+func (g *Game) drawSystem(screen *ebiten.Image, system *spaceEntities.System) {
+	for _, p := range system.Planets {
 		p.Draw(screen)
 	}
 }
@@ -77,26 +112,23 @@ func GetImages(paths []string) []*ebiten.Image {
 }
 
 func Newgame() *Game {
+
+	imageutils.InitImageMaps()
+
 	game := Game{}
 
 	game.background = ebiten.NewImageFromImage(imageutils.GetImage(config.GetConfig().BackgroundImagePath))
-	game.planets = planets.LoadPlanets()
+	game.systems = spaceEntities.LoadSystems()
+	game.planets = spaceEntities.LoadPlanets()
 	game.prevUpdate = time.Now()
+	game.currentView = &View{viewType: GalaxyView}
 	fmt.Println("Number of planets", len(game.planets))
 	return &game
 }
 
 func main() {
-	// Decode an image from the image file's byte slice.
-	// Now the byte slice is generated with //go:generate for Go 1.15 or older.
-	// If you use Go 1.16 or newer, it is strongly recommended to use //go:embed to embed the image file.
-	// See https://pkg.go.dev/embed for more details.
-	// img, _, err := image.Decode(bytes.NewReader(images.Runner_png))
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// runnerImage = ebiten.NewImageFromImage(img)
 
+	imageutils.InitImageMaps()
 	ebiten.SetWindowSize(screenWidth*2, screenHeight*2)
 	ebiten.SetWindowTitle("Animation (Ebiten Demo)")
 
@@ -105,8 +137,4 @@ func main() {
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
 	}
-}
-
-func NewGame() {
-	panic("unimplemented")
 }

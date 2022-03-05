@@ -17,9 +17,12 @@ type TextConf struct {
 }
 
 type Configuration struct {
-	BackgroundImagePath string   `json:"backgroundImage"`
-	PlanetsFile         string   `json:"planetsFile"`
-	Text                TextConf `json:"text"`
+	BackgroundImagePath string            `json:"backgroundImage"`
+	PlanetsFile         string            `json:"planetsFile"`
+	SystemsFile         string            `json:"systemsFile"`
+	Text                TextConf          `json:"text"`
+	PlanetImages        map[string]string `json:"planetImages"`
+	StarImages          map[string]string `json:"starImages"`
 }
 
 func GetConfig() Configuration {

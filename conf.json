@@ -1,6 +1,7 @@
 {
     "backgroundImage": "images/space.png",
     "planetsFile": "data/planetsSingle.json",
+    "systemsFile": "data/systems.json",
     "text": {
         "size": 18,
         "colour": {
@@ -9,6 +10,16 @@
             "b": 255,
             "a": 255
         }
+    },
+    "starImages": {
+        "redDwarf": "images/spaceSprites/Sun_00000.png"
+    },
+    "planetImages": {
+        "planetType1": "images/spaceSprites/Planet1.png",
+        "planetType2": "images/spaceSprites/Planet2.png",
+        "planetType3": "images/spaceSprites/Planet3.png",
+        "planetType4": "images/spaceSprites/Planet4.png",
+        "planetType5": "images/spaceSprites/Planet5.png"
+
     }
-    
 }

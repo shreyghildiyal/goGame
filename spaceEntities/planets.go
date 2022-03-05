@@ -1,4 +1,4 @@
-package planets
+package spaceEntities
 
 import (
 	"encoding/json"
@@ -24,6 +24,7 @@ var mplusNormalFont font.Face
 const dpi = 72
 
 type Planet struct {
+	Id           int     `json:"id"`
 	X            float64 `json:"x"`
 	Y            float64 `json:"y"`
 	image        *ebiten.Image
@@ -64,7 +65,7 @@ func (p *Planet) Draw(screen *ebiten.Image) {
 
 }
 
-func LoadPlanets() []Planet {
+func LoadPlanets() map[int]*Planet {
 	planetsFilePath := config.GetConfig().PlanetsFile
 
 	data, err := ioutil.ReadFile(planetsFilePath)
@@ -87,20 +88,14 @@ func LoadPlanets() []Planet {
 	}
 	SetFont()
 	// printTextPrintLoc(planets)
-	return planets
+	planetMap := make(map[int]*Planet, len(planets))
+
+	for _, planet := range planets {
+		planetMap[planet.Id] = &planet
+	}
+
+	return planetMap
 }
-
-// func printTextPrintLoc(planets []Planet) {
-// 	for _, p := range planets {
-// 		_, y := p.image.Size()
-// 		fmt.Println("image height", y)
-// 		fmt.Println("image top left corner", p.X, p.Y)
-// 		fmt.Println("text height", mplusNormalFont.Metrics().CapHeight)
-// 		textX, textY := p.GetTextPosition(mplusNormalFont)
-// 		fmt.Printf("text location %d, %d\n", textX, textY)
-// 	}
-
-// }
 
 func (p *Planet) GetTextPosition(font font.Face) (int, int) {
 	// _, y := p.image.Size()

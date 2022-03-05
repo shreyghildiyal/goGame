@@ -1,0 +1,9 @@
+[
+    {
+        "name": "system1",
+        "x": 100,
+        "y": 100,
+        "starType": "redDwarf",
+        "id": 1
+    }
+]

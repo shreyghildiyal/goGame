@@ -1,0 +1,1 @@
+1) Display stars in galaxy view

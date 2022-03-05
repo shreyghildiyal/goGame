@@ -5,7 +5,8 @@
         "y": 100,
         "imageLoc": "images/planet1.png",
         "scale": 0.95,
-        "rotationRate": 0
+        "rotationRate": 0,
+        "id": 1
     },
     {
         "name": "planet2",
@@ -13,7 +14,8 @@
         "y": 120,
         "imageLoc": "images/planet2.png",
         "scale": 0.85,
-        "rotationRate": 1
+        "rotationRate": 1,
+        "id": 2
     },
     {
         "name": "planet3",
@@ -21,7 +23,8 @@
         "y": 140,
         "imageLoc": "images/planet3.png",
         "scale": 0.75,
-        "rotationRate": 5
+        "rotationRate": 5,
+        "id": 3
     },
     {
         "name": "planet4",
@@ -29,6 +32,7 @@
         "y": 160,
         "imageLoc": "images/planet4.png",
         "scale": 0.5,
-        "rotationRate": 10
+        "rotationRate": 10,
+        "id": 4
     }
 ]
