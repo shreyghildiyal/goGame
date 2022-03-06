@@ -49,8 +49,8 @@ func LoadSystems() map[int]*System {
 
 	systemsMap := make(map[int]*System, len(systems))
 
-	for _, system := range systems {
-		systemsMap[system.Id] = &system
+	for i := 0; i < len(systems); i++ {
+		systemsMap[systems[i].Id] = &systems[i]
 	}
 
 	return systemsMap
@@ -75,6 +75,7 @@ func (s *System) GetName() string {
 func DrawStars(screen *ebiten.Image, camX, camY, zoom float64, stars map[int]*System) {
 
 	for _, system := range stars {
+		// fmt.Println("Draw", system.Id, system.Name)
 		DrawSpaceEntity(screen, camX, camY, zoom, system)
 	}
 }

@@ -58,8 +58,8 @@ type Game struct {
 
 func (g *Game) handleKeyboardInput(dt time.Duration) {
 	var timeMulti float64 = float64(dt.Microseconds()) / 1000000
-	fmt.Println("time Multi", timeMulti)
-	fmt.Println("Speed", config.GetConfig().Camera.SpeedX, config.GetConfig().Camera.SpeedY)
+	// fmt.Println("time Multi", timeMulti)
+	// fmt.Println("Speed", config.GetConfig().Camera.SpeedX, config.GetConfig().Camera.SpeedY)
 	if ebiten.IsKeyPressed(ebiten.KeyUp) {
 		g.camera.y -= config.GetConfig().Camera.SpeedY * timeMulti
 	} else if ebiten.IsKeyPressed(ebiten.KeyDown) {
@@ -142,6 +142,7 @@ func Newgame() *Game {
 
 	game.background = ebiten.NewImageFromImage(imageutils.GetImage(config.GetConfig().BackgroundImagePath))
 	game.systems = spaceEntities.LoadSystems()
+	fmt.Println("Systems", game.systems)
 	game.planets = spaceEntities.LoadPlanets()
 	game.prevUpdate = time.Now()
 	game.currentView = &View{viewType: GalaxyView}

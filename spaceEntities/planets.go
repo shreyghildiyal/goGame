@@ -80,8 +80,8 @@ func LoadPlanets() map[int]*Planet {
 	// printTextPrintLoc(planets)
 	planetMap := make(map[int]*Planet, len(planets))
 
-	for _, planet := range planets {
-		planetMap[planet.Id] = &planet
+	for i := 0; i < len(planets); i++ {
+		planetMap[planets[i].Id] = &planets[i]
 	}
 
 	return planetMap

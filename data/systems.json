@@ -9,5 +9,16 @@
             "baseHeight": 20,
             "baseWidth": 20
         }
+    },
+    {
+        "name": "system2",
+        "x": 150,
+        "y": 150,
+        "starType": "redDwarf",
+        "id": 2,
+        "displayDetails": {
+            "baseHeight": 20,
+            "baseWidth": 20
+        }
     }
 ]
