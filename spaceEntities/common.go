@@ -24,10 +24,11 @@ func DrawSpaceEntity(screen *ebiten.Image, camX, camY, camZoom float64, entity S
 
 	x, y := disp.BaseWidth, disp.BaseHeight
 	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Translate(-float64(x/2), -float64(y/2))
+
 	// op.GeoM.Rotate(star.rotation)
 	// op.GeoM.Translate(float64(x/2), float64(y/2))
 	op.GeoM.Scale(disp.ScaleX*camZoom, disp.ScaleY*camZoom)
+	op.GeoM.Translate(-float64(x/2), -float64(y/2))
 	op.GeoM.Translate(entity.GetCoordinates())
 	op.GeoM.Translate(camX, camY)
 
@@ -45,4 +46,15 @@ func DrawSpaceEntity(screen *ebiten.Image, camX, camY, camZoom float64, entity S
 
 func GetTextPosition(f font.Face, entity SpaceEntity) (float64, float64) {
 	return entity.GetCoordinates()
+}
+
+func IsClicked(entity SpaceEntity, cursorX, cursorY float64, camX, camY, camZoom float64) bool {
+	disp := entity.GetDisplay()
+	dX := float64(disp.BaseWidth / 2)
+	dY := float64(disp.BaseHeight / 2)
+	x, y := entity.GetCoordinates()
+	if x-dX <= cursorX-camX && cursorX-camX <= x+dX && y-dY <= cursorY-camY && cursorY-camY <= y+dY {
+		return true
+	}
+	return false
 }

@@ -6,19 +6,19 @@
         "starType": "redDwarf",
         "id": 1,
         "displayDetails": {
-            "baseHeight": 20,
-            "baseWidth": 20
+            "baseHeight": 50,
+            "baseWidth": 50
         }
     },
     {
         "name": "system2",
-        "x": 150,
-        "y": 150,
+        "x": 200,
+        "y": 200,
         "starType": "redDwarf",
         "id": 2,
         "displayDetails": {
-            "baseHeight": 20,
-            "baseWidth": 20
+            "baseHeight": 50,
+            "baseWidth": 50
         }
     }
 ]

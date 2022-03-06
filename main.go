@@ -61,13 +61,30 @@ func (g *Game) handleKeyboardInput(dt time.Duration) {
 	// fmt.Println("time Multi", timeMulti)
 	// fmt.Println("Speed", config.GetConfig().Camera.SpeedX, config.GetConfig().Camera.SpeedY)
 	if ebiten.IsKeyPressed(ebiten.KeyUp) {
-		g.camera.y -= config.GetConfig().Camera.SpeedY * timeMulti
-	} else if ebiten.IsKeyPressed(ebiten.KeyDown) {
 		g.camera.y += config.GetConfig().Camera.SpeedY * timeMulti
+	} else if ebiten.IsKeyPressed(ebiten.KeyDown) {
+		g.camera.y -= config.GetConfig().Camera.SpeedY * timeMulti
 	} else if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-		g.camera.x -= config.GetConfig().Camera.SpeedX * timeMulti
-	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
 		g.camera.x += config.GetConfig().Camera.SpeedX * timeMulti
+	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
+		g.camera.x -= config.GetConfig().Camera.SpeedX * timeMulti
+	}
+}
+
+func (g *Game) handleMouseInput(dt time.Duration) {
+
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
+		if g.currentView.viewType == GalaxyView {
+			fmt.Println("Just licked left mouse button")
+			for _, system := range g.systems {
+				cursorX, cursorY := ebiten.CursorPosition()
+				if spaceEntities.IsClicked(system, float64(cursorX), float64(cursorY), g.camera.x, g.camera.y, g.camera.zoom) {
+					fmt.Println("System", system.Name, "was clicked")
+					// set view to system view
+					// set current system to the system in question
+				}
+			}
+		}
 	}
 }
 
@@ -76,6 +93,8 @@ func (g *Game) Update() error {
 	dt := time.Since(g.prevUpdate)
 
 	g.handleKeyboardInput(dt)
+
+	g.handleMouseInput(dt)
 
 	g.keys = inpututil.AppendPressedKeys(g.keys[:0])
 

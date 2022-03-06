@@ -16,8 +16,8 @@ type System struct {
 	Id         int                    `json:"id"`
 	Name       string                 `json:"name"`
 	Planets    []Planet               `json:"planets"`
-	X          float64                `json:"x"`
-	Y          float64                `json:"y"`
+	X          float64                `json:"x"` // this is the center of the image and actual position of the star
+	Y          float64                `json:"y"` // this is the center of the image and actual position of the star
 	Display    imageutils.DispDetails `json:"displayDetails"`
 	StarType   string                 `json:"starType"`
 	Neighbours []*System
@@ -64,7 +64,7 @@ func DrawWarpLines(screen *ebiten.Image, camX, camY, zoom float64, systems map[i
 	for _, system := range systems {
 		for _, system2 := range system.Neighbours {
 			if system.Id < system2.Id {
-				ebitenutil.DrawLine(screen, system.X+camX+float64(system.Display.BaseWidth)/2, system.Y+camY+float64(system.Display.BaseHeight)/2, system2.X+camX+float64(system2.Display.BaseWidth)/2, system2.Y+camY+float64(system2.Display.BaseHeight)/2, colour)
+				ebitenutil.DrawLine(screen, system.X+camX, system.Y+camY, system2.X+camX, system2.Y+camY, colour)
 			}
 		}
 
