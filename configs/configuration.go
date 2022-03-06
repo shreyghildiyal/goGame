@@ -24,13 +24,19 @@ type Camera struct {
 }
 
 type Configuration struct {
-	BackgroundImagePath string            `json:"backgroundImage"`
-	PlanetsFile         string            `json:"planetsFile"`
-	SystemsFile         string            `json:"systemsFile"`
-	Text                TextConf          `json:"text"`
-	PlanetImages        map[string]string `json:"planetImages"`
-	StarImages          map[string]string `json:"starImages"`
-	Camera              Camera            `json:"camera"`
+	BackgroundImagePath   string            `json:"backgroundImage"`
+	PlanetsFile           string            `json:"planetsFile"`
+	SystemsFile           string            `json:"systemsFile"`
+	SystemsConnectionFile string            `json:"systemsConnectionFile"`
+	Text                  TextConf          `json:"text"`
+	PlanetImages          map[string]string `json:"planetImages"`
+	StarImages            map[string]string `json:"starImages"`
+	Camera                Camera            `json:"camera"`
+	WarpLines             WarpLines         `json:"warpLines"`
+}
+
+type WarpLines struct {
+	Colour color.RGBA `json:"colour"`
 }
 
 func GetConfig() Configuration {

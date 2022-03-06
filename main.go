@@ -143,6 +143,7 @@ func Newgame() *Game {
 	game.background = ebiten.NewImageFromImage(imageutils.GetImage(config.GetConfig().BackgroundImagePath))
 	game.systems = spaceEntities.LoadSystems()
 	fmt.Println("Systems", game.systems)
+	spaceEntities.CreateWarpLines(game.systems)
 	game.planets = spaceEntities.LoadPlanets()
 	game.prevUpdate = time.Now()
 	game.currentView = &View{viewType: GalaxyView}

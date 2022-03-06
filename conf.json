@@ -26,5 +26,14 @@
         "speedX": 10,
         "speedY": 10,
         "speedZoom": 1.1
+    },
+    "systemsConnectionFile": "data/systemConnections.json",
+    "warpLines": {
+        "colour": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 100
+        }
     }
 }

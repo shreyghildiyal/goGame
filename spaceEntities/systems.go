@@ -6,19 +6,21 @@ import (
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	config "github.com/shreyghildiyal/goGame/configs"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 	"golang.org/x/image/font"
 )
 
 type System struct {
-	Id       int                    `json:"id"`
-	Name     string                 `json:"name"`
-	Planets  []Planet               `json:"planets"`
-	X        float64                `json:"x"`
-	Y        float64                `json:"y"`
-	Display  imageutils.DispDetails `json:"displayDetails"`
-	StarType string                 `json:"starType"`
+	Id         int                    `json:"id"`
+	Name       string                 `json:"name"`
+	Planets    []Planet               `json:"planets"`
+	X          float64                `json:"x"`
+	Y          float64                `json:"y"`
+	Display    imageutils.DispDetails `json:"displayDetails"`
+	StarType   string                 `json:"starType"`
+	Neighbours []*System
 	// height   int
 	// width    int
 	// image *ebiten.Image
@@ -56,8 +58,17 @@ func LoadSystems() map[int]*System {
 	return systemsMap
 }
 
-func DrawWarpLines(screen *ebiten.Image, camX, camY, zoom float64, stars map[int]*System) {
+func DrawWarpLines(screen *ebiten.Image, camX, camY, zoom float64, systems map[int]*System) {
+	colour := config.GetConfig().WarpLines.Colour
 
+	for _, system := range systems {
+		for _, system2 := range system.Neighbours {
+			if system.Id < system2.Id {
+				ebitenutil.DrawLine(screen, system.X+camX+float64(system.Display.BaseWidth)/2, system.Y+camY+float64(system.Display.BaseHeight)/2, system2.X+camX+float64(system2.Display.BaseWidth)/2, system2.Y+camY+float64(system2.Display.BaseHeight)/2, colour)
+			}
+		}
+
+	}
 }
 
 func (s *System) GetCoordinates() (float64, float64) {
@@ -75,47 +86,45 @@ func (s *System) GetName() string {
 func DrawStars(screen *ebiten.Image, camX, camY, zoom float64, stars map[int]*System) {
 
 	for _, system := range stars {
-		// fmt.Println("Draw", system.Id, system.Name)
+
 		DrawSpaceEntity(screen, camX, camY, zoom, system)
 	}
 }
 
-// func (star *System) Draw(screen *ebiten.Image, camX, camY int, camZoom float64) {
-
-// 	x, y := star.Display.BaseWidth, star.Display.BaseWidth
-// 	op := &ebiten.DrawImageOptions{}
-// 	op.GeoM.Translate(-float64(x/2), -float64(y/2))
-// 	// op.GeoM.Rotate(star.rotation)
-// 	op.GeoM.Translate(float64(x/2), float64(y/2))
-// 	op.GeoM.Scale(star.Display.ScaleX*camZoom, star.Display.ScaleY*camZoom)
-// 	op.GeoM.Translate(star.X, star.Y)
-
-// 	textX, textY := star.GetTextPosition(mplusNormalFont)
-
-// 	if star.Display.Image == nil {
-// 		fmt.Println("image from", star.StarType, "was nil somehow")
-// 	} else if mplusNormalFont == nil {
-// 		fmt.Println("font is nil")
-// 	} else {
-// 		screen.DrawImage(star.Display.Image, op)
-// 		// fmt.Printf("text location %d, %d\n", int(p.X), int(p.Y)+y+mplusNormalFont.Metrics().Height.Ceil())
-// 		text.Draw(screen, star.Name, mplusNormalFont, textX, textY, config.GetConfig().Text.Colour)
-// 	}
-// }
-
 func (system *System) GetTextPosition(font font.Face) (int, int) {
-	// _, y := p.image.Size()
-	// textX := int(p.X)
 
-	// textY := 0.0
-	// // fmt.Println("textHeight1", textY)
-	// textY += p.Y
-	// fmt.Println("textHeight2", textY, p.Y)
-	// textY += p.Scale * float64(y)
-	// fmt.Println("textHeight3", textY, y)
-	// textY += float64(font.Metrics().CapHeight.Ceil())
-	// fmt.Println("textHeight4", textY, font.Metrics().CapHeight.Ceil())
-
-	// return textX, int(textY)
 	return int(system.X), int(system.Y)
+}
+
+func CreateWarpLines(systems map[int]*System) {
+	systemConnectionsFile := config.GetConfig().SystemsConnectionFile
+
+	data, err := ioutil.ReadFile(systemConnectionsFile)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	out := [][]int{}
+
+	err = json.Unmarshal(data, &out)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for _, line := range out {
+		sys1, found := systems[line[0]]
+		if !found {
+			continue
+		}
+		sys2, found2 := systems[line[1]]
+		if !found2 {
+			continue
+		}
+		if sys1.Id < sys2.Id {
+			sys1.Neighbours = append(sys1.Neighbours, sys2)
+			sys2.Neighbours = append(sys2.Neighbours, sys1)
+		}
+
+	}
 }
