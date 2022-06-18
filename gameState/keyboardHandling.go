@@ -20,4 +20,14 @@ func HandleKeyboardInput(dt time.Duration, g *Game) {
 	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
 		g.Camera.X -= config.GetConfig().Camera.SpeedX * timeMulti
 	}
+
+	if ebiten.IsKeyPressed(ebiten.KeySpace) {
+		if g.CurrentView == SystemView {
+			// set view to galaxy view
+			g.CurrentView = GalaxyView
+			// set camera location to system location in galaxy
+			g.Camera.X = g.Systems[g.CurrentSystemID].X
+			g.Camera.Y = g.Systems[g.CurrentSystemID].Y
+		}
+	}
 }

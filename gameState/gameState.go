@@ -21,10 +21,10 @@ const (
 	SystemView ViewType = "System"
 )
 
-type View struct {
-	ViewType ViewType
-	Extra    interface{}
-}
+// type View struct {
+// 	ViewType ViewType
+// 	Extra    interface{}
+// }
 
 // const (
 // 	ScreenWidth  = 600
@@ -40,7 +40,7 @@ type Game struct {
 
 	// mouse inputs.Mouse
 
-	CurrentView View
+	CurrentView ViewType
 
 	CurrentSystemID int
 
@@ -71,11 +71,11 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 	drawfunctions.DrawBackground(screen, g.Background)
 
-	switch g.CurrentView.ViewType {
+	switch g.CurrentView {
 	case GalaxyView:
 		drawfunctions.DrawGalaxy(screen, g.Camera, g.Systems)
 	case SystemView:
-		drawfunctions.DrawSystem(screen, g.CurrentSystemId, g.Planets)
+		drawfunctions.DrawSystem(screen, g.Systems[g.CurrentSystemID], g.Planets)
 	case MenuView:
 		drawfunctions.DrawMenu(screen)
 	}
@@ -94,7 +94,7 @@ func Newgame() *Game {
 	spaceEntities.CreateWarpLines(game.Systems)
 	game.Planets = spaceEntities.LoadPlanets()
 	game.PrevUpdate = time.Now()
-	game.CurrentView = &View{ViewType: GalaxyView}
+	game.CurrentView = GalaxyView
 	game.Camera.Zoom = 1
 	fmt.Println("Number of planets", len(game.Planets))
 	return &game

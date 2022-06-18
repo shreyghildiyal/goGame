@@ -15,9 +15,9 @@ type DispDetails struct {
 }
 
 func (d *DispDetails) InitDetails() {
-	x, y := d.Image.Size()
-	fmt.Println("image size", x, y)
-	d.ScaleX = float64(d.BaseWidth) / float64(x)
-	d.ScaleY = float64(d.BaseHeight) / float64(y)
+	width, height := d.Image.Size()
+	fmt.Println("image size", width, height)
+	d.ScaleX = float64(d.BaseWidth) / float64(width)
+	d.ScaleY = float64(d.BaseHeight) / float64(height)
 	fmt.Println("Image scale", d.ScaleX, d.ScaleY)
 }

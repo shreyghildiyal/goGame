@@ -10,10 +10,16 @@ import (
 	"github.com/shreyghildiyal/goGame/spaceEntities"
 )
 
-func DrawSystem(screen *ebiten.Image, systemId int, planets map[int]*spaceEntities.Planet, systems map[int]*spaceEntities.System) {
-	for _, planetId := range systems[systemId].Planets {
+func DrawSystem(screen *ebiten.Image, system *spaceEntities.System, planets map[int]*spaceEntities.Planet) {
+	for _, planetId := range system.Planets {
 		DrawPlanet(screen, planets[planetId])
 	}
+
+	DrawSystemStar(screen, system)
+}
+
+func DrawSystemStar(screen *ebiten.Image, system *spaceEntities.System) {
+
 }
 
 func DrawPlanet(screen *ebiten.Image, p *spaceEntities.Planet) {
