@@ -11,18 +11,19 @@ import (
 	"golang.org/x/image/font"
 )
 
-func DrawSpaceEntity(screen *ebiten.Image, camX, camY, camZoom float64, entity spaceEntities.SpaceEntity) {
+func DrawSpaceEntityAtLocation(screen *ebiten.Image, camX, camY, camZoom float64, entity spaceEntities.SpaceEntity, x, y float64) {
 
 	disp := entity.GetDisplay()
 
-	x, y := disp.BaseWidth, disp.BaseHeight
+	baseWidth, baseHeight := disp.TargetWidth, disp.TargetHeight
 	op := &ebiten.DrawImageOptions{}
 
 	// op.GeoM.Rotate(star.rotation)
 	// op.GeoM.Translate(float64(x/2), float64(y/2))
+
 	op.GeoM.Scale(disp.ScaleX*camZoom, disp.ScaleY*camZoom)
-	op.GeoM.Translate(-float64(x/2), -float64(y/2))
-	op.GeoM.Translate(entity.GetCoordinates())
+	op.GeoM.Translate(-float64(baseWidth/2), -float64(baseHeight/2))
+	op.GeoM.Translate(x, y)
 	op.GeoM.Translate(camX, camY)
 
 	textX, textY := GetTextPosition(gametext.SpaceDisplayFont, entity)

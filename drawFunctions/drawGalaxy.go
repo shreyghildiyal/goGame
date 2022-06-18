@@ -29,7 +29,7 @@ func DrawWarpLines(screen *ebiten.Image, camera camera.Camera, systems map[int]*
 func DrawGalaxyStars(screen *ebiten.Image, camera camera.Camera, stars map[int]*spaceEntities.System) {
 
 	for _, system := range stars {
-
-		DrawSpaceEntity(screen, camera.X, camera.Y, camera.Zoom, system)
+		x, y := system.GetCoordinates()
+		DrawSpaceEntityAtLocation(screen, camera.X, camera.Y, camera.Zoom, system, x, y)
 	}
 }

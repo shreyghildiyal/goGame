@@ -48,7 +48,6 @@ func LoadPlanets() map[int]*Planet {
 	for i := 0; i < len(planets); i++ {
 
 		planets[i].Image = ebiten.NewImageFromImage(imageutils.GetImage(planets[i].ImageLoc))
-
 	}
 
 	// printTextPrintLoc(planets)
