@@ -5,8 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	config "github.com/shreyghildiyal/goGame/configs"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 	"golang.org/x/image/font"
@@ -15,12 +13,12 @@ import (
 type System struct {
 	Id         int                    `json:"id"`
 	Name       string                 `json:"name"`
-	Planets    []Planet               `json:"planets"`
+	Planets    []int                  `json:"planets"`
 	X          float64                `json:"x"` // this is the center of the image and actual position of the star
 	Y          float64                `json:"y"` // this is the center of the image and actual position of the star
 	Display    imageutils.DispDetails `json:"displayDetails"`
 	StarType   string                 `json:"starType"`
-	Neighbours []*System
+	Neighbours []int
 	// height   int
 	// width    int
 	// image *ebiten.Image
@@ -58,19 +56,6 @@ func LoadSystems() map[int]*System {
 	return systemsMap
 }
 
-func DrawWarpLines(screen *ebiten.Image, camX, camY, zoom float64, systems map[int]*System) {
-	colour := config.GetConfig().WarpLines.Colour
-
-	for _, system := range systems {
-		for _, system2 := range system.Neighbours {
-			if system.Id < system2.Id {
-				ebitenutil.DrawLine(screen, system.X+camX, system.Y+camY, system2.X+camX, system2.Y+camY, colour)
-			}
-		}
-
-	}
-}
-
 func (s *System) GetCoordinates() (float64, float64) {
 	return s.X, s.Y
 }
@@ -81,14 +66,6 @@ func (s *System) GetDisplay() *imageutils.DispDetails {
 
 func (s *System) GetName() string {
 	return s.Name
-}
-
-func DrawStars(screen *ebiten.Image, camX, camY, zoom float64, stars map[int]*System) {
-
-	for _, system := range stars {
-
-		DrawSpaceEntity(screen, camX, camY, zoom, system)
-	}
 }
 
 func (system *System) GetTextPosition(font font.Face) (int, int) {
@@ -122,8 +99,8 @@ func CreateWarpLines(systems map[int]*System) {
 			continue
 		}
 		if sys1.Id < sys2.Id {
-			sys1.Neighbours = append(sys1.Neighbours, sys2)
-			sys2.Neighbours = append(sys2.Neighbours, sys1)
+			sys1.Neighbours = append(sys1.Neighbours, sys2.Id)
+			sys2.Neighbours = append(sys2.Neighbours, sys1.Id)
 		}
 
 	}

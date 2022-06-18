@@ -23,6 +23,11 @@ type Camera struct {
 	SpeedZoom float64 `json:"SpeedZoom"`
 }
 
+type ScreenSize struct {
+	Height int `json:"height"`
+	Width  int `json:"width"`
+}
+
 type Configuration struct {
 	BackgroundImagePath   string            `json:"backgroundImage"`
 	PlanetsFile           string            `json:"planetsFile"`
@@ -33,6 +38,7 @@ type Configuration struct {
 	StarImages            map[string]string `json:"starImages"`
 	Camera                Camera            `json:"camera"`
 	WarpLines             WarpLines         `json:"warpLines"`
+	ScreenSize            ScreenSize        `json:"screenSize"`
 }
 
 type WarpLines struct {
