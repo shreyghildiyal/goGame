@@ -10,7 +10,7 @@ import (
 
 func DrawGalaxy(screen *ebiten.Image, camera camera.Camera, systems map[int]*spaceEntities.System) {
 	DrawWarpLines(screen, camera, systems)
-	DrawGalaxyStars(screen, camera, systems)
+	// DrawGalaxyStars(screen, camera, systems)
 }
 
 func DrawWarpLines(screen *ebiten.Image, camera camera.Camera, systems map[int]*spaceEntities.System) {
@@ -26,10 +26,10 @@ func DrawWarpLines(screen *ebiten.Image, camera camera.Camera, systems map[int]*
 	}
 }
 
-func DrawGalaxyStars(screen *ebiten.Image, camera camera.Camera, stars map[int]*spaceEntities.System) {
+// func DrawGalaxyStars(screen *ebiten.Image, camera camera.Camera, stars map[int]*spaceEntities.System) {
 
-	for _, system := range stars {
+// 	for _, system := range stars {
 
-		DrawSpaceEntity(screen, camera.X, camera.Y, camera.Zoom, system)
-	}
-}
+// 		DrawSpaceEntity(screen, camera.X, camera.Y, camera.Zoom, system)
+// 	}
+// }

@@ -5,14 +5,30 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/text"
+	"github.com/shreyghildiyal/goGame/camera"
+	"github.com/shreyghildiyal/goGame/components"
 	config "github.com/shreyghildiyal/goGame/configs"
+	"github.com/shreyghildiyal/goGame/constants"
+	"github.com/shreyghildiyal/goGame/entities"
 	"github.com/shreyghildiyal/goGame/gametext"
 	"github.com/shreyghildiyal/goGame/spaceEntities"
 )
 
-func DrawSystem(screen *ebiten.Image, systemId int, planets map[int]*spaceEntities.Planet, systems map[int]*spaceEntities.System) {
-	for _, planetId := range systems[systemId].Planets {
-		DrawPlanet(screen, planets[planetId])
+func DrawSystem(screen *ebiten.Image, camera *camera.Camera, currentSystemId int, entityList []entities.Entity, drawables []components.Drawable, inSystems []components.InSystem, coordinates []components.Coordinates) {
+	// for _, planetId := range systems[systemId].Planets {
+	// 	DrawPlanet(screen, planets[planetId])
+	// }
+	for _, drawable := range drawables {
+		entityId := drawable.GetEntityId()
+		inSystemIds, found := entityList[entityId].GetComponentIds(constants.INSYSTEM)
+		if found {
+			for _, inSysId := range inSystemIds {
+				if inSysId == currentSystemId {
+					// if systemCoordinates[]
+					DrawSprite(screen, camera, drawable, components.Coordinates{X: 0, Y: 0})
+				}
+			}
+		}
 	}
 }
 
