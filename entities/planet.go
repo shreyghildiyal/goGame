@@ -3,10 +3,17 @@ package entities
 import "github.com/shreyghildiyal/goGame/constants"
 
 type Planet struct {
-	Id            int
-	ComponentsMap map[constants.ComponentTypeName][]int
-	EntityType    constants.EntityTypeName
+	Id              int
+	ComponentsMap   map[constants.ComponentTypeName][]int
+	EntityType      constants.EntityTypeName
+	markedForDelete bool
 }
+
+// func NewPlanet() Planet {
+// 	planet := Planet{}
+
+// 	return planet
+// }
 
 func (p *Planet) GetId() int {
 	return p.Id
@@ -37,4 +44,12 @@ func (p *Planet) AddComponent(componentType constants.ComponentTypeName, compone
 
 func (p *Planet) GetEntityType() constants.EntityTypeName {
 	return p.EntityType
+}
+
+func (p *Planet) MarkForDelete() {
+	p.markedForDelete = true
+}
+
+func (p *Planet) IsMarkedForDelete() bool {
+	return p.markedForDelete
 }

@@ -1,6 +1,7 @@
 package gamestate
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -80,6 +81,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 	case GalaxyView:
 		// drawfunctions.DrawGalaxy(screen, g.Camera, g.Systems)
 	case SystemView:
+		// fmt.Println("Drawing System")
 		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Entities, g.Drawables, g.InSystemComponents, g.CoordinateComponents)
 	case MenuView:
 		drawfunctions.DrawMenu(screen)
@@ -99,9 +101,11 @@ func Newgame() *Game {
 	// spaceEntities.CreateWarpLines(game.Systems)
 	// game.Planets = spaceEntities.LoadPlanets()
 	game.PrevUpdate = time.Now()
-	game.CurrentView = View{ViewType: GalaxyView}
+	game.CurrentView = View{ViewType: SystemView}
 	game.Camera.Zoom = 1
 	// fmt.Println("Number of planets", len(game.Planets))
+
+	fmt.Println("Number of drawables", len(game.Drawables))
 	return &game
 }
 
