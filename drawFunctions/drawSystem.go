@@ -4,7 +4,6 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/shreyghildiyal/goGame/camera"
 	"github.com/shreyghildiyal/goGame/components"
-	"github.com/shreyghildiyal/goGame/constants"
 	"github.com/shreyghildiyal/goGame/entities"
 	// "github.com/shreyghildiyal/goGame/spaceEntities"
 )
@@ -13,25 +12,25 @@ func DrawSystem(screen *ebiten.Image, camera *camera.Camera, currentSystemId int
 	// for _, planetId := range systems[systemId].Planets {
 	// 	DrawPlanet(screen, planets[planetId])
 	// }
-	for _, drawable := range drawables {
-		entityId := drawable.GetEntityId()
-		inSystemIds, found := entityList[entityId].GetComponentIds(constants.INSYSTEM)
-		if found {
-			for _, inSysId := range inSystemIds {
-				if inSysId == currentSystemId {
-					// if systemCoordinates[]
-					DrawSprite(screen, camera, drawable, components.Coordinates{X: 0, Y: 0})
-				}
-			}
-		}
-	}
+	// for _, drawable := range drawables {
+	// 	entityId := drawable.GetEntityId()
+	// 	inSystemIds, err := entityList[entityId].GetComponentIds(constants.INSYSTEM)
+	// 	if found {
+	// 		for _, inSysId := range inSystemIds {
+	// 			if inSysId == currentSystemId {
+	// 				// if systemCoordinates[]
+	// 				DrawSprite(screen, camera, drawable, components.Coordinates{X: 0, Y: 0})
+	// 			}
+	// 		}
+	// 	}
+	// }
 
-	DrawSystemStar(screen, system)
+	// DrawSystemStar(screen, system)
 }
 
-func DrawSystemStar(screen *ebiten.Image, system *spaceEntities.System) {
+// func DrawSystemStar(screen *ebiten.Image, system *spaceEntities.System) {
 
-}
+// }
 
 // func DrawPlanet(screen *ebiten.Image, p *spaceEntities.Planet) {
 // 	// fmt.Println("Planet Name", p.Name)

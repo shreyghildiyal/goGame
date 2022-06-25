@@ -26,8 +26,8 @@ func HandleKeyboardInput(dt time.Duration, g *Game) {
 			// set view to galaxy view
 			g.CurrentView = GalaxyView
 			// set camera location to system location in galaxy
-			g.Camera.X = g.Systems[g.CurrentSystemID].X
-			g.Camera.Y = g.Systems[g.CurrentSystemID].Y
+			// g.Camera.X = g.Systems[g.CurrentSystemID].X
+			// g.Camera.Y = g.Systems[g.CurrentSystemID].Y
 		}
 	}
 }
