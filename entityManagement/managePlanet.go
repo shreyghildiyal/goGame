@@ -7,8 +7,8 @@ import (
 
 func AddPlanet(entityHandler *entities.EntityHandler, drawables []components.Drawable, inSystem []components.InSystem, coords []components.Coordinates) {
 	// entity
-	planet := entities.Planet{}
-	// coords := components.Coordinates{}
-	entityHandler.AddEntity(&planet)
+	// entityId := entityHandler.AddEntity(constants.STAR)
+
+	// componentId :=
 
 }
