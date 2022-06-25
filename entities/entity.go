@@ -25,8 +25,8 @@ func (e *Entity) GetComponentIds(componentType constants.ComponentTypeName) ([]i
 	}
 }
 
-func (e *Entity) GetEntityType() constants.ComponentTypeName {
-	return constants.ComponentTypeName(e.entityType)
+func (e *Entity) GetEntityType() constants.EntityTypeName {
+	return e.entityType
 }
 
 func (e *Entity) MarkForDeletion() {

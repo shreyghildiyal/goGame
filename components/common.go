@@ -8,9 +8,12 @@ type Component interface {
 	SetEntity(int, constants.EntityTypeName)
 	MarkForDeletion()
 	IsMarkedForDelete() bool
+	GetId() int
+	SetId(int)
 }
 
 type baseComponent struct {
+	id           int
 	entityId     int
 	entityType   constants.EntityTypeName
 	shouldDelete bool
@@ -35,4 +38,11 @@ func (c *baseComponent) MarkForDeletion() {
 
 func (c *baseComponent) IsMarkedForDelete() bool {
 	return c.shouldDelete
+}
+
+func (c *baseComponent) GetId() int {
+	return c.id
+}
+func (c *baseComponent) SetId(id int) {
+	c.id = id
 }

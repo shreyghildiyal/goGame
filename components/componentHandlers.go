@@ -3,7 +3,6 @@ package components
 import (
 	"fmt"
 
-	"github.com/shreyghildiyal/goGame/constants"
 	"github.com/shreyghildiyal/goGame/utils"
 )
 
@@ -17,9 +16,10 @@ type ComponentHandler[T Component] struct {
 	freeIdsSlice    []bool
 }
 
-func (ch *ComponentHandler[T]) GetComponent(id int) (*T, error) {
+func (ch *ComponentHandler[T]) GetComponent(id int) (T, error) {
+	var nilVar T
 	if id >= len(ch.componentsSlice) {
-		return new(T), fmt.Errorf("no entity with id %d exists", id)
+		return nilVar, fmt.Errorf("no entity with id %d exists", id)
 	} else if ch.freeIdsSlice[id] {
 		found := false
 		for _, freeId := range ch.freeIds.Dump() {
@@ -29,33 +29,30 @@ func (ch *ComponentHandler[T]) GetComponent(id int) (*T, error) {
 			}
 		}
 		if !found {
-			return new(T), fmt.Errorf("no entity at id %d. however the id is not available. something really wonky going on", id)
+			return nilVar, fmt.Errorf("no entity at id %d. however the id is not available. something really wonky going on", id)
 		}
 
-		return new(T), fmt.Errorf("no entity with id %d exists", id)
+		return nilVar, fmt.Errorf("no entity with id %d exists", id)
 	} else {
-		return &ch.componentsSlice[id], nil
+		return ch.componentsSlice[id], nil
 	}
 }
 
-func (ch *ComponentHandler[T]) AddComponent(entityId int, entityType constants.EntityTypeName) int {
+func (ch *ComponentHandler[T]) AddComponent(component T) int {
 
-	// component := T{markedForDelete: false, entityType: entityType, componentsMap: map[constants.ComponentTypeName][]int{}}
-	// component := new(T)
-	// (*component).MarkForDeletion()
-	// *T.GetEntity()
-	// component
-	var component T
-	component.SetEntity(entityId, entityType)
+	// var component T
+
+	// fmt.Println(component.GetEntityId())
+	// component.SetEntity(entityId, entityType)
 	componentId := -1
 	if ch.freeIds.Len() == 0 {
-		// component.setId(len(ch.componentsSlice))
+		component.SetId(len(ch.componentsSlice))
 		componentId = len(ch.componentsSlice)
 		ch.componentsSlice = append(ch.componentsSlice, component)
 		ch.freeIdsSlice = append(ch.freeIdsSlice, false)
 	} else {
 		enId := ch.freeIds.Pop()
-		// component.id = enId
+		component.SetId(enId)
 		componentId = enId
 		ch.componentsSlice[enId] = component
 		ch.freeIdsSlice[enId] = false

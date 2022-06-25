@@ -2,13 +2,18 @@ package entityManagement
 
 import (
 	"github.com/shreyghildiyal/goGame/components"
+	"github.com/shreyghildiyal/goGame/constants"
 	"github.com/shreyghildiyal/goGame/entities"
 )
 
-func AddPlanet(entityHandler *entities.EntityHandler, drawables []components.Drawable, inSystem []components.InSystem, coords []components.Coordinates) {
+func AddPlanet(entityHandler *entities.EntityHandler, coordinateHandler *components.ComponentHandler[*components.Coordinates]) {
 	// entity
-	// entityId := entityHandler.AddEntity(constants.STAR)
+	entityId := entityHandler.AddEntity(constants.PLANET)
 
-	// componentId :=
+	coordinates := components.Coordinates{}
+
+	coordinates.SetEntity(entityId, constants.PLANET)
+
+	coordinateHandler.AddComponent(&coordinates)
 
 }
