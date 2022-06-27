@@ -9,7 +9,7 @@ import (
 
 type EntityHandler struct {
 	entities     []Entity
-	freeIds      utils.Heap[int]
+	freeIds      utils.NumberHeap[int]
 	freeIdsSlice []bool
 }
 

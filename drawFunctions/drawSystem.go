@@ -4,26 +4,42 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/shreyghildiyal/goGame/camera"
 	"github.com/shreyghildiyal/goGame/components"
+	"github.com/shreyghildiyal/goGame/constants"
 	"github.com/shreyghildiyal/goGame/entities"
 	// "github.com/shreyghildiyal/goGame/spaceEntities"
 )
 
-func DrawSystem(screen *ebiten.Image, camera *camera.Camera, currentSystemId int, entityList []entities.Entity, drawables []components.Drawable, inSystems []components.InSystem, coordinates []components.Coordinates) {
+func DrawSystem(screen *ebiten.Image, camera *camera.Camera, currentSystemId int, entityHandler entities.EntityHandler, drawables components.ComponentHandler[*components.Drawable], inSystemHandler components.ComponentHandler[*components.InSystem], coordinates components.ComponentHandler[*components.Coordinates]) {
 	// for _, planetId := range systems[systemId].Planets {
 	// 	DrawPlanet(screen, planets[planetId])
 	// }
-	// for _, drawable := range drawables {
-	// 	entityId := drawable.GetEntityId()
-	// 	inSystemIds, err := entityList[entityId].GetComponentIds(constants.INSYSTEM)
-	// 	if found {
-	// 		for _, inSysId := range inSystemIds {
-	// 			if inSysId == currentSystemId {
-	// 				// if systemCoordinates[]
-	// 				DrawSprite(screen, camera, drawable, components.Coordinates{X: 0, Y: 0})
-	// 			}
-	// 		}
-	// 	}
-	// }
+	// drawableIdIter := drawables.Iter()
+	for i := 0; i < drawables.Len(); i++ {
+		drawable, err := drawables.GetComponent(i)
+		if err != nil {
+			continue
+		}
+		entityId := drawable.GetEntityId()
+		entity, err := entityHandler.GetEntity(entityId)
+		if err != nil {
+			continue
+		}
+		inSystemIds, err := entity.GetComponentIds(constants.INSYSTEM)
+		if err != nil {
+			continue
+		}
+		for _, inSysId := range inSystemIds {
+			inSystemId, err := inSystemHandler.GetComponent(inSysId)
+			if err != nil {
+				continue
+			}
+			if inSystemId.GetSystemId() == currentSystemId {
+				// if systemCoordinates[]
+				DrawSprite(screen, camera, *drawable, components.Coordinates{X: 0, Y: 0})
+			}
+		}
+
+	}
 
 	// DrawSystemStar(screen, system)
 }

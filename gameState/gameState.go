@@ -11,6 +11,7 @@ import (
 	config "github.com/shreyghildiyal/goGame/configs"
 	drawfunctions "github.com/shreyghildiyal/goGame/drawFunctions"
 	"github.com/shreyghildiyal/goGame/entities"
+	"github.com/shreyghildiyal/goGame/entityManagement"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
 
@@ -35,24 +36,18 @@ const (
 type Game struct {
 	// Planets         map[int]*spaceEntities.Planet
 	// Systems         map[int]*spaceEntities.System
-	Entities        []entities.Entity
+	Entities        entities.EntityHandler
 	Background      *ebiten.Image
 	CurrentSystemId int
 	PrevUpdate      time.Time
-
-	CurrentView ViewType
-
+	CurrentView     ViewType
 	CurrentSystemID int
+	Camera          camera.Camera
+	Keys            []ebiten.Key
 
-	Camera camera.Camera
-
-	Keys []ebiten.Key
-
-	Drawables []components.Drawable
-
-	InSystemComponents []components.InSystem
-
-	CoordinateComponents []components.Coordinates
+	drawableHandler   components.ComponentHandler[*components.Drawable]
+	coordinateHandler components.ComponentHandler[*components.Coordinates]
+	inSystemHandler   components.ComponentHandler[*components.InSystem]
 }
 
 func (g *Game) Update() error {
@@ -82,7 +77,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		// drawfunctions.DrawGalaxy(screen, g.Camera, g.Systems)
 	case SystemView:
 		// fmt.Println("Drawing System")
-		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Entities, g.Drawables, g.InSystemComponents, g.CoordinateComponents)
+		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Entities, g.drawableHandler, g.inSystemHandler, g.coordinateHandler)
 	case MenuView:
 		drawfunctions.DrawMenu(screen)
 	}
@@ -105,7 +100,9 @@ func Newgame() *Game {
 	game.Camera.Zoom = 1
 	// fmt.Println("Number of planets", len(game.Planets))
 
-	fmt.Println("Number of drawables", len(game.Drawables))
+	entityManagement.AddPlanet(&game.Entities, &game.coordinateHandler, &game.drawableHandler)
+
+	fmt.Println("Number of Coordinates", game.coordinateHandler.Len())
 	return &game
 }
 

@@ -44,19 +44,26 @@ func GetSystemImage(systemImageType string) *ebiten.Image {
 }
 
 func GetPlanetImage(planetImageType string) *ebiten.Image {
+	fmt.Println("planetImagesMap is nil", planetImagesMap == nil)
+	for key, val := range planetImagesMap {
+		fmt.Println(key, ":", val)
+	}
 	return ebiten.NewImageFromImage(*planetImagesMap[planetImageType])
 }
 
 func InitImageMaps() {
 
+	fmt.Println("Initializing image maps")
 	// initStarImageMap()
 	starImagesMap = map[string]*image.Image{}
 	initImageMap(starImagesMap, config.GetConfig().StarImages)
 	planetImagesMap = map[string]*image.Image{}
+	fmt.Println("Loading planet images using", config.GetConfig().PlanetImages)
 	initImageMap(planetImagesMap, config.GetConfig().PlanetImages)
+
+	fmt.Println("Number of planet images in map", len(planetImagesMap))
 	// initPlanetImageMap()
 
-	planetImagesMap = map[string]*image.Image{}
 }
 
 func initImageMap(imgmap map[string]*image.Image, pathMap map[string]string) {

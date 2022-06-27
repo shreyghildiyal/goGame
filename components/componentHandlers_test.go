@@ -8,19 +8,28 @@ import (
 	"github.com/shreyghildiyal/goGame/entities"
 )
 
-func TestComponentHandlerAddComponent(t *testing.T) {
+func TestComponentHandlerAddDeleteComponent(t *testing.T) {
 
-	// ch := components.ComponentHandler[*components.Drawable]{}
+	ch := components.ComponentHandler[*components.Coordinates]{}
 
-	// componentId1 := ch.AddComponent(0, constants.STAR)
-	// if componentId1 != 0 {
-	// 	t.Errorf("The added component doesnt have the correct ID")
-	// }
+	coord1 := components.Coordinates{}
+	ch.AddComponent(&coord1)
 
-	// componentId2 := ch.AddComponent(0, constants.STAR)
-	// if componentId2 != 1 {
-	// 	t.Errorf("The added component doesnt have the correct ID")
-	// }
+	coord2 := components.Coordinates{}
+	ch.AddComponent(&coord2)
+
+	coord3 := components.Coordinates{}
+	ch.AddComponent(&coord3)
+
+	coord4 := components.Coordinates{}
+	ch.AddComponent(&coord4)
+
+	ch.DeleteComponent(0)
+	ch.DeleteComponent(1)
+
+	if ch.Len() != 2 {
+		t.Error("The deleted component isnt correct")
+	}
 }
 
 func TestComponentHandlerGetComponent(t *testing.T) {
