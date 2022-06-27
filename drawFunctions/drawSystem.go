@@ -16,7 +16,6 @@ func DrawSystem(
 	entityHandler entities.EntityHandler,
 	drawables components.ComponentHandler[*components.Drawable],
 	inSystemHandler components.ComponentHandler[*components.InSystem],
-	coordinates components.ComponentHandler[*components.SystemCoordinates],
 ) {
 
 	for i := 0; i < drawables.Len(); i++ {
@@ -37,17 +36,15 @@ func DrawSystem(
 			continue
 		}
 		for _, inSysId := range inSystemIds {
-			inSystemId, err := inSystemHandler.GetComponent(inSysId)
+			inSystemComponent, err := inSystemHandler.GetComponent(inSysId)
 			if err != nil {
 				// fmt.Printf("entity %d connected to  inSystem %d that isnt registered", entityId, inSysId)
 				continue
 			}
-			if inSystemId.GetSystemId() == currentSystemId {
+			if inSystemComponent.GetSystemId() == currentSystemId {
 				// if systemCoordinates[]
 
-				DrawSprite(screen, camera, *drawable, components.Coordinates{X: 0, Y: 0})
-			} else {
-				// fmt.Printf("entity %d is in system %d but we are drawing %d\n", entityId, inSystemId.GetSystemId(), currentSystemId)
+				DrawSprite(screen, camera, *drawable, inSystemComponent.Coordinates)
 			}
 		}
 

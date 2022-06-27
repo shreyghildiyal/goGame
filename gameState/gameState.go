@@ -47,8 +47,8 @@ type GameState struct {
 	// coordinateHandler components.ComponentHandler[*components.Coordinates]
 	inSystemHandler components.ComponentHandler[*components.InSystem]
 
-	systemCoordinateHandler components.ComponentHandler[*components.SystemCoordinates]
-	galaxyCoordinateHandler components.ComponentHandler[*components.GalaxyCoordinates]
+	// systemCoordinateHandler components.ComponentHandler[*components.SystemCoordinates]
+	// galaxyCoordinateHandler components.ComponentHandler[*components.GalaxyCoordinates]
 }
 
 func (g *GameState) Update() error {
@@ -78,7 +78,7 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 		// drawfunctions.DrawGalaxy(screen, g.Camera, g.Systems)
 	case SystemView:
 		// fmt.Println("Drawing System")
-		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Entities, g.drawableHandler, g.inSystemHandler, g.systemCoordinateHandler)
+		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Entities, g.drawableHandler, g.inSystemHandler)
 	case MenuView:
 		drawfunctions.DrawMenu(screen)
 	}
@@ -104,7 +104,7 @@ func Newgame() *GameState {
 
 	AddPlanet(&game.Entities, &game)
 
-	fmt.Println("Number of systemCoordinates", game.systemCoordinateHandler.Len())
+	fmt.Println("Number of inSystems", game.inSystemHandler.Len())
 	return &game
 }
 

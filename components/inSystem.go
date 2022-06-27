@@ -4,6 +4,7 @@ import "github.com/shreyghildiyal/goGame/constants"
 
 type InSystem struct {
 	systemId int
+	Coordinates
 	baseComponent
 }
 
@@ -15,6 +16,12 @@ func (is *InSystem) GetSystemId() int {
 	return is.systemId
 }
 
-func NewInSystemComponent(systemId int, entityId int, entityType constants.EntityTypeName) InSystem {
-	return InSystem{systemId: systemId, baseComponent: baseComponent{entityId: entityId, entityType: entityType}}
+func NewInSystemComponent(systemId int, entityId int, entityType constants.EntityTypeName, x, y float64) InSystem {
+	return InSystem{
+		systemId: systemId,
+		baseComponent: baseComponent{
+			entityId:   entityId,
+			entityType: entityType,
+		},
+		Coordinates: Coordinates{X: x, Y: y}}
 }

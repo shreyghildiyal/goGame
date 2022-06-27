@@ -10,18 +10,18 @@ import (
 
 func TestComponentHandlerAddDeleteComponent(t *testing.T) {
 
-	ch := components.ComponentHandler[*components.Coordinates]{}
+	ch := components.ComponentHandler[*components.Drawable]{}
 
-	coord1 := components.Coordinates{}
+	coord1 := components.Drawable{}
 	ch.AddComponent(&coord1)
 
-	coord2 := components.Coordinates{}
+	coord2 := components.Drawable{}
 	ch.AddComponent(&coord2)
 
-	coord3 := components.Coordinates{}
+	coord3 := components.Drawable{}
 	ch.AddComponent(&coord3)
 
-	coord4 := components.Coordinates{}
+	coord4 := components.Drawable{}
 	ch.AddComponent(&coord4)
 
 	ch.DeleteComponent(0)
