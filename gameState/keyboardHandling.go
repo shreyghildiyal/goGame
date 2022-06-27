@@ -7,7 +7,7 @@ import (
 	config "github.com/shreyghildiyal/goGame/configs"
 )
 
-func HandleKeyboardInput(dt time.Duration, g *Game) {
+func HandleKeyboardInput(dt time.Duration, g *GameState) {
 	var timeMulti float64 = float64(dt.Microseconds()) / 1000000
 	// fmt.Println("time Multi", timeMulti)
 	// fmt.Println("Speed", config.GetConfig().Camera.SpeedX, config.GetConfig().Camera.SpeedY)

@@ -11,7 +11,6 @@ import (
 	config "github.com/shreyghildiyal/goGame/configs"
 	drawfunctions "github.com/shreyghildiyal/goGame/drawFunctions"
 	"github.com/shreyghildiyal/goGame/entities"
-	"github.com/shreyghildiyal/goGame/entityManagement"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
 
@@ -33,7 +32,7 @@ const (
 // 	ScreenHeight = 600
 // )
 
-type Game struct {
+type GameState struct {
 	// Planets         map[int]*spaceEntities.Planet
 	// Systems         map[int]*spaceEntities.System
 	Entities        entities.EntityHandler
@@ -41,16 +40,18 @@ type Game struct {
 	CurrentSystemId int
 	PrevUpdate      time.Time
 	CurrentView     ViewType
-	CurrentSystemID int
 	Camera          camera.Camera
 	Keys            []ebiten.Key
 
-	drawableHandler   components.ComponentHandler[*components.Drawable]
-	coordinateHandler components.ComponentHandler[*components.Coordinates]
-	inSystemHandler   components.ComponentHandler[*components.InSystem]
+	drawableHandler components.ComponentHandler[*components.Drawable]
+	// coordinateHandler components.ComponentHandler[*components.Coordinates]
+	inSystemHandler components.ComponentHandler[*components.InSystem]
+
+	systemCoordinateHandler components.ComponentHandler[*components.SystemCoordinates]
+	galaxyCoordinateHandler components.ComponentHandler[*components.GalaxyCoordinates]
 }
 
-func (g *Game) Update() error {
+func (g *GameState) Update() error {
 
 	dt := time.Since(g.PrevUpdate)
 
@@ -68,7 +69,7 @@ func (g *Game) Update() error {
 	return nil
 }
 
-func (g *Game) Draw(screen *ebiten.Image) {
+func (g *GameState) Draw(screen *ebiten.Image) {
 
 	drawfunctions.DrawBackground(screen, g.Background)
 
@@ -77,18 +78,18 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		// drawfunctions.DrawGalaxy(screen, g.Camera, g.Systems)
 	case SystemView:
 		// fmt.Println("Drawing System")
-		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Entities, g.drawableHandler, g.inSystemHandler, g.coordinateHandler)
+		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Entities, g.drawableHandler, g.inSystemHandler, g.systemCoordinateHandler)
 	case MenuView:
 		drawfunctions.DrawMenu(screen)
 	}
 
 }
 
-func Newgame() *Game {
+func Newgame() *GameState {
 
 	imageutils.InitImageMaps()
 
-	game := Game{}
+	game := GameState{}
 
 	game.Background = ebiten.NewImageFromImage(imageutils.GetImage(config.GetConfig().BackgroundImagePath))
 	// game.Systems = spaceEntities.LoadSystems()
@@ -98,14 +99,15 @@ func Newgame() *Game {
 	game.PrevUpdate = time.Now()
 	game.CurrentView = SystemView
 	game.Camera.Zoom = 1
+	game.CurrentSystemId = 0
 	// fmt.Println("Number of planets", len(game.Planets))
 
-	entityManagement.AddPlanet(&game.Entities, &game.coordinateHandler, &game.drawableHandler)
+	AddPlanet(&game.Entities, &game)
 
-	fmt.Println("Number of Coordinates", game.coordinateHandler.Len())
+	fmt.Println("Number of systemCoordinates", game.systemCoordinateHandler.Len())
 	return &game
 }
 
-func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
+func (g *GameState) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return config.GetConfig().ScreenSize.Width, config.GetConfig().ScreenSize.Height
 }

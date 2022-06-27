@@ -9,33 +9,45 @@ import (
 	// "github.com/shreyghildiyal/goGame/spaceEntities"
 )
 
-func DrawSystem(screen *ebiten.Image, camera *camera.Camera, currentSystemId int, entityHandler entities.EntityHandler, drawables components.ComponentHandler[*components.Drawable], inSystemHandler components.ComponentHandler[*components.InSystem], coordinates components.ComponentHandler[*components.Coordinates]) {
-	// for _, planetId := range systems[systemId].Planets {
-	// 	DrawPlanet(screen, planets[planetId])
-	// }
-	// drawableIdIter := drawables.Iter()
+func DrawSystem(
+	screen *ebiten.Image,
+	camera *camera.Camera,
+	currentSystemId int,
+	entityHandler entities.EntityHandler,
+	drawables components.ComponentHandler[*components.Drawable],
+	inSystemHandler components.ComponentHandler[*components.InSystem],
+	coordinates components.ComponentHandler[*components.SystemCoordinates],
+) {
+
 	for i := 0; i < drawables.Len(); i++ {
 		drawable, err := drawables.GetComponent(i)
 		if err != nil {
 			continue
 		}
+		// fmt.Printf("Drawable with Id %d exists\n", i)
 		entityId := drawable.GetEntityId()
 		entity, err := entityHandler.GetEntity(entityId)
 		if err != nil {
 			continue
 		}
+		// fmt.Printf("entity %d retrieved for drawable %d\n", entityId, i)
 		inSystemIds, err := entity.GetComponentIds(constants.INSYSTEM)
 		if err != nil {
+			// fmt.Printf("The entity %d is not in a system\n", entityId)
 			continue
 		}
 		for _, inSysId := range inSystemIds {
 			inSystemId, err := inSystemHandler.GetComponent(inSysId)
 			if err != nil {
+				// fmt.Printf("entity %d connected to  inSystem %d that isnt registered", entityId, inSysId)
 				continue
 			}
 			if inSystemId.GetSystemId() == currentSystemId {
 				// if systemCoordinates[]
+
 				DrawSprite(screen, camera, *drawable, components.Coordinates{X: 0, Y: 0})
+			} else {
+				// fmt.Printf("entity %d is in system %d but we are drawing %d\n", entityId, inSystemId.GetSystemId(), currentSystemId)
 			}
 		}
 

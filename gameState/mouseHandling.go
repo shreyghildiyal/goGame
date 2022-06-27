@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-func HandleMouseInput(dt time.Duration, g *Game) {
+func HandleMouseInput(dt time.Duration, g *GameState) {
 
 	// if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
 	// 	if g.CurrentView.ViewType == GalaxyView {

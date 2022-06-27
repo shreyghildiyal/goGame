@@ -64,3 +64,14 @@ func (eh *EntityHandler) DeleteEntity(entityId int) error {
 
 	return nil
 }
+
+func (eh *EntityHandler) AddComponentToEntity(entityId int, componentId int, componentType constants.ComponentTypeName) error {
+	if entityId >= len(eh.entities) {
+		return fmt.Errorf("no entity with id %d exists", entityId)
+	} else if eh.freeIdsSlice[entityId] {
+		return fmt.Errorf("no entity with id %d exists", entityId)
+	} else {
+		eh.entities[entityId].AddComponent(componentId, componentType)
+	}
+	return nil
+}
