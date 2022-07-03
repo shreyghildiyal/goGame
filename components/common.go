@@ -4,8 +4,8 @@ import "github.com/shreyghildiyal/goGame/constants"
 
 type Component interface {
 	GetEntityId() int
-	GetEntityType() constants.EntityTypeName
-	SetEntity(int, constants.EntityTypeName)
+	GetEntityType() constants.EntityType
+	SetEntity(int, constants.EntityType)
 	MarkForDeletion()
 	IsMarkedForDelete() bool
 	GetId() int
@@ -15,7 +15,7 @@ type Component interface {
 type baseComponent struct {
 	id           int
 	entityId     int
-	entityType   constants.EntityTypeName
+	entityType   constants.EntityType
 	shouldDelete bool
 }
 
@@ -23,11 +23,11 @@ func (is *baseComponent) GetEntityId() int {
 	return is.entityId
 }
 
-func (c *baseComponent) GetEntityType() constants.EntityTypeName {
+func (c *baseComponent) GetEntityType() constants.EntityType {
 	return c.entityType
 }
 
-func (c *baseComponent) SetEntity(entityId int, entityType constants.EntityTypeName) {
+func (c *baseComponent) SetEntity(entityId int, entityType constants.EntityType) {
 	c.entityId = entityId
 	c.entityType = entityType
 }

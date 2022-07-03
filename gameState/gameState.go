@@ -9,6 +9,7 @@ import (
 	"github.com/shreyghildiyal/goGame/camera"
 	"github.com/shreyghildiyal/goGame/components"
 	config "github.com/shreyghildiyal/goGame/configs"
+	"github.com/shreyghildiyal/goGame/constants"
 	drawfunctions "github.com/shreyghildiyal/goGame/drawFunctions"
 	"github.com/shreyghildiyal/goGame/entities"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
@@ -87,6 +88,9 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 
 func Newgame() *GameState {
 
+	fmt.Println("planet", constants.PLANET)
+	fmt.Println("star", constants.STAR)
+
 	imageutils.InitImageMaps()
 
 	game := GameState{}
@@ -102,7 +106,10 @@ func Newgame() *GameState {
 	game.CurrentSystemId = 0
 	// fmt.Println("Number of planets", len(game.Planets))
 
-	AddPlanet(&game.Entities, &game)
+	// AddPlanet(&game.Entities, &game)
+	// loadEntities(&game.Entities)
+	// loadDrawables(&game.drawableHandler)
+	game.loadSaveGame()
 
 	fmt.Println("Number of inSystems", game.inSystemHandler.Len())
 	return &game

@@ -10,9 +10,9 @@ const (
 	NAME        ComponentTypeName = "NAME"
 )
 
-type EntityTypeName string
+type EntityType int
 
 const (
-	PLANET EntityTypeName = "PLANET"
-	STAR   EntityTypeName = "STAR"
+	PLANET EntityType = iota
+	STAR   EntityType = iota
 )

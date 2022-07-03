@@ -29,16 +29,18 @@ type ScreenSize struct {
 }
 
 type Configuration struct {
-	BackgroundImagePath   string            `json:"backgroundImage"`
-	PlanetsFile           string            `json:"planetsFile"`
-	SystemsFile           string            `json:"systemsFile"`
-	SystemsConnectionFile string            `json:"systemsConnectionFile"`
-	Text                  TextConf          `json:"text"`
-	PlanetImages          map[string]string `json:"planetImages"`
-	StarImages            map[string]string `json:"starImages"`
-	Camera                Camera            `json:"camera"`
-	WarpLines             WarpLines         `json:"warpLines"`
-	ScreenSize            ScreenSize        `json:"screenSize"`
+	BackgroundImagePath string `json:"backgroundImage"`
+	// PlanetsFile           string            `json:"planetsFile"`
+	// SystemsFile           string            `json:"systemsFile"`
+	// SystemsConnectionFile string            `json:"systemsConnectionFile"`
+	// WarpLines    WarpLines         `json:"warpLines"`
+	Text         TextConf          `json:"text"`
+	PlanetImages map[string]string `json:"planetImages"`
+	StarImages   map[string]string `json:"starImages"`
+	Camera       Camera            `json:"camera"`
+	ScreenSize   ScreenSize        `json:"screenSize"`
+	EntitiesFile string            `json:"entitiesFile"`
+	SaveGameDir  string            `json:"saveGameDir"`
 }
 
 type WarpLines struct {

@@ -1,0 +1,56 @@
+{
+    "entities": [
+        {
+            "id": 0,
+            "type": 0
+        },
+        {
+            "id": 1,
+            "type": 0
+        },
+        {
+            "id": 2,
+            "type": 1
+        }
+    ],
+    "components": {
+        "drawables": [
+            {
+                "id": 0,
+                "targetHeight": 50,
+                "targetWidth": 50,
+                "imageName": "planetType1",
+                "zLevel": 1,
+                "entityId": 0,
+                "shouldDelete": false
+            },
+            {
+                "id": 1,
+                "targetHeight": 50,
+                "targetWidth": 50,
+                "imageName": "planetType1",
+                "zLevel": 1,
+                "entityId": 1,
+                "shouldDelete": false
+            },
+            {
+                "id": 0,
+                "targetHeight": 50,
+                "targetWidth": 50,
+                "imageName": "planetType1",
+                "zLevel": 1,
+                "entityId": 2,
+                "shouldDelete": false
+            }
+        ],
+        "inSystem": [
+            {
+                "systemId": 0,
+                "coordinates": {
+                    "x": 100,
+                    "y": 100
+                }
+            }
+        ]
+    }
+}

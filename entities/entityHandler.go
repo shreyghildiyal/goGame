@@ -1,6 +1,7 @@
 package entities
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/shreyghildiyal/goGame/constants"
@@ -34,7 +35,7 @@ func (eh *EntityHandler) GetEntity(id int) (*Entity, error) {
 	}
 }
 
-func (eh *EntityHandler) AddEntity(entityType constants.EntityTypeName) int {
+func (eh *EntityHandler) AddEntity(entityType constants.EntityType) int {
 
 	entity := Entity{markedForDelete: false, entityType: entityType, componentsMap: map[constants.ComponentTypeName][]int{}}
 	if eh.freeIds.Len() == 0 {
@@ -74,4 +75,24 @@ func (eh *EntityHandler) AddComponentToEntity(entityId int, componentId int, com
 		eh.entities[entityId].AddComponent(componentId, componentType)
 	}
 	return nil
+}
+
+func (eh *EntityHandler) AddEntityWithId(entityId int, entityType constants.EntityType) error {
+	return nil
+}
+
+func (eh *EntityHandler) EntityListLen() int {
+	return len(eh.entities)
+}
+
+func (eh *EntityHandler) MarshalJSON() ([]byte, error) {
+	j, err := json.Marshal(struct {
+		Entities []Entity
+	}{
+		Entities: eh.entities,
+	})
+	if err != nil {
+		return nil, err
+	}
+	return j, nil
 }

@@ -16,7 +16,7 @@ func (is *InSystem) GetSystemId() int {
 	return is.systemId
 }
 
-func NewInSystemComponent(systemId int, entityId int, entityType constants.EntityTypeName, x, y float64) InSystem {
+func NewInSystemComponent(systemId int, entityId int, entityType constants.EntityType, x, y float64) InSystem {
 	return InSystem{
 		systemId: systemId,
 		baseComponent: baseComponent{

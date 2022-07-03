@@ -39,5 +39,6 @@
     "screenSize": {
         "height": 600,
         "width": 800
-    }
+    },
+    "entitiesFile": "data/entities.csv"
 }

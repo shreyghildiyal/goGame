@@ -41,7 +41,7 @@ func TestComponentHandlerGetComponent(t *testing.T) {
 
 	drawable := components.Drawable{}
 	entity := entities.Entity{}
-	drawable.SetEntity(entity.GetId(), constants.EntityTypeName(entity.GetEntityType()))
+	drawable.SetEntity(entity.GetId(), constants.EntityType(entity.GetEntityType()))
 	componentId1 := ch.AddComponent(&drawable)
 	if componentId1 != 0 {
 		t.Errorf("The added component doesnt have the correct ID")

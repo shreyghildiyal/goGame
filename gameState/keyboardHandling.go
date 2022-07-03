@@ -1,13 +1,16 @@
 package gamestate
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	config "github.com/shreyghildiyal/goGame/configs"
 )
 
 func HandleKeyboardInput(dt time.Duration, g *GameState) {
+
 	var timeMulti float64 = float64(dt.Microseconds()) / 1000000
 	// fmt.Println("time Multi", timeMulti)
 	// fmt.Println("Speed", config.GetConfig().Camera.SpeedX, config.GetConfig().Camera.SpeedY)
@@ -29,5 +32,8 @@ func HandleKeyboardInput(dt time.Duration, g *GameState) {
 			// g.Camera.X = g.Systems[g.CurrentSystemID].X
 			// g.Camera.Y = g.Systems[g.CurrentSystemID].Y
 		}
+	} else if ebiten.IsKeyPressed(ebiten.KeyControl) && inpututil.IsKeyJustPressed(ebiten.KeyS) {
+		fmt.Println("Calling SaveGame")
+		g.saveGame()
 	}
 }

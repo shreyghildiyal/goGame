@@ -1,6 +1,7 @@
 package entities
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/shreyghildiyal/goGame/constants"
@@ -9,7 +10,7 @@ import (
 type Entity struct {
 	id              int
 	componentsMap   map[constants.ComponentTypeName][]int
-	entityType      constants.EntityTypeName
+	entityType      constants.EntityType
 	markedForDelete bool
 }
 
@@ -25,7 +26,7 @@ func (e *Entity) GetComponentIds(componentType constants.ComponentTypeName) ([]i
 	}
 }
 
-func (e *Entity) GetEntityType() constants.EntityTypeName {
+func (e *Entity) GetEntityType() constants.EntityType {
 	return e.entityType
 }
 
@@ -54,4 +55,18 @@ func (e *Entity) AddComponent(componentId int, componentType constants.Component
 		return nil
 	}
 
+}
+
+func (e *Entity) MarshalJSON() ([]byte, error) {
+	j, err := json.Marshal(struct {
+		Id         int
+		EntityType int
+	}{
+		Id:         e.id,
+		EntityType: int(e.entityType),
+	})
+	if err != nil {
+		return nil, err
+	}
+	return j, nil
 }

@@ -16,7 +16,7 @@ type Drawable struct {
 	baseComponent
 }
 
-func NewDrawable(entityId int, entityType constants.EntityTypeName, imageName string, height, width float64) Drawable {
+func NewDrawable(entityId int, entityType constants.EntityType, imageName string, height, width float64) Drawable {
 	drawable := Drawable{
 		Image:         imageutils.GetPlanetImage(imageName),
 		TargetHeight:  height,
