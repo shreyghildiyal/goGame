@@ -86,12 +86,10 @@ func (eh *EntityHandler) EntityListLen() int {
 }
 
 func (eh *EntityHandler) MarshalJSON() ([]byte, error) {
-	j, err := json.Marshal(struct {
-		Entities []Entity
-	}{
-		Entities: eh.entities,
-	})
+	fmt.Println("MarshalJSON called for entity handler")
+	j, err := json.Marshal(eh.entities)
 	if err != nil {
+		fmt.Println(err)
 		return nil, err
 	}
 	return j, nil

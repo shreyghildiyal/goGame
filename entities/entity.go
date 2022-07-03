@@ -58,6 +58,7 @@ func (e *Entity) AddComponent(componentId int, componentType constants.Component
 }
 
 func (e *Entity) MarshalJSON() ([]byte, error) {
+	fmt.Println("MarshalJSON called for entity with id", e.id)
 	j, err := json.Marshal(struct {
 		Id         int
 		EntityType int

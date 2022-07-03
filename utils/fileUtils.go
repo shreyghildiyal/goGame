@@ -31,10 +31,37 @@ func GetCsvRecords(filePath string) ([][]string, error) {
 func SaveToFile(jsonStr []byte, fileName string) error {
 
 	saveDir := config.GetConfig().SaveGameDir
-	filePath := fmt.Sprintf("%s/%s", saveDir, fileName)
+	var filePath string
+	if len(saveDir) == 0 {
+		filePath = fileName
+	} else {
+		filePath = fmt.Sprintf("%s/%s", saveDir, fileName)
+	}
 
-	err := os.WriteFile(filePath, jsonStr, 0644)
+	err := createDirectoryStructure(saveDir)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	_, err0 := os.Create(filePath)
+	if err0 != nil {
+		fmt.Printf("Error creating path %s \n", filePath)
+		fmt.Println(err0)
+		return fmt.Errorf("error creating the file %s", filePath)
+	}
+	err = os.WriteFile(filePath, jsonStr, 0644)
+	if err != nil {
+		fmt.Printf("Error writing to path %s \n", filePath)
+	} else {
+		fmt.Printf("The file should be written to %s\n", filePath)
+	}
 
 	return err
 
+}
+
+func createDirectoryStructure(dir string) error {
+
+	err := os.MkdirAll(dir, os.ModePerm)
+	return err
 }

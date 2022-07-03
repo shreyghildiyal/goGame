@@ -34,8 +34,6 @@ const (
 // )
 
 type GameState struct {
-	// Planets         map[int]*spaceEntities.Planet
-	// Systems         map[int]*spaceEntities.System
 	Entities        entities.EntityHandler
 	Background      *ebiten.Image
 	CurrentSystemId int
@@ -104,11 +102,11 @@ func Newgame() *GameState {
 	game.CurrentView = SystemView
 	game.Camera.Zoom = 1
 	game.CurrentSystemId = 0
-	// fmt.Println("Number of planets", len(game.Planets))
 
-	// AddPlanet(&game.Entities, &game)
-	// loadEntities(&game.Entities)
-	// loadDrawables(&game.drawableHandler)
+	game.Entities.AddEntity(constants.STAR)
+	game.Entities.AddEntity(constants.STAR)
+	game.Entities.AddEntity(constants.STAR)
+
 	game.loadSaveGame()
 
 	fmt.Println("Number of inSystems", game.inSystemHandler.Len())
