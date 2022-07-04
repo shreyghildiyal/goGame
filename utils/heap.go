@@ -1,5 +1,10 @@
 package utils
 
+import (
+	"encoding/json"
+	"fmt"
+)
+
 type number interface {
 	int8 | int | int16 | int32 | int64 |
 		float32 | float64 |
@@ -75,4 +80,14 @@ func right(i int) int  { return left(i) + 1 }
 
 func (h *NumberHeap[T]) Dump() []T {
 	return h.data
+}
+
+func (h NumberHeap[T]) MarshalJSON() ([]byte, error) {
+	fmt.Println("Marshalling the Heap")
+	j, err := json.Marshal(struct {
+		Data []T
+	}{
+		Data: h.data,
+	})
+	return j, err
 }

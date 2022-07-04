@@ -9,10 +9,11 @@ import (
 type Drawable struct {
 	TargetHeight float64 `json:"baseHeight"`
 	TargetWidth  float64 `json:"baseWidth"`
-	ScaleX       float64
-	ScaleY       float64
+	ScaleX       float64 `json:"scaleX"`
+	ScaleY       float64 `json:"scaleY"`
+	ZLevel       int     `json:"zLevel"`
+	ImageName    string  `json:"imageName"`
 	Image        *ebiten.Image
-	ZLevel       int
 	baseComponent
 }
 
@@ -30,6 +31,7 @@ func NewDrawable[T SystemDrawable | GalaxyDrawable](entityId int, entityType con
 		TargetWidth:   width,
 		ScaleX:        scaleX,
 		ScaleY:        scaleY,
+		ImageName:     imageName,
 		baseComponent: baseComponent{entityId: entityId, entityType: entityType},
 	}
 
@@ -38,3 +40,21 @@ func NewDrawable[T SystemDrawable | GalaxyDrawable](entityId int, entityType con
 
 	return drawable
 }
+
+// func (d *Drawable) MarshalJSON([]byte, error) {
+// 	fmt.Println("MarshalJSON called for entity handler")
+// 	j, err := json.Marshal(struct {
+// 		ComponentsSlice []T
+// 		FreeIds         utils.NumberHeap[int]
+// 		FreeIdsSlice    []bool
+// 	}{
+// 		ComponentsSlice: ch.componentsSlice,
+// 		FreeIds:         ch.freeIds,
+// 		FreeIdsSlice:    ch.freeIdsSlice,
+// 	})
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		return nil, err
+// 	}
+// 	return j, nil
+// }

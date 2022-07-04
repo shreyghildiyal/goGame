@@ -1,6 +1,7 @@
 package components
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/shreyghildiyal/goGame/utils"
@@ -66,4 +67,22 @@ func (ch *ComponentHandler[T]) DeleteComponent(componentId int) error {
 
 func (ch *ComponentHandler[T]) Len() int {
 	return len(ch.componentsSlice) - ch.freeIds.Len()
+}
+
+func (ch *ComponentHandler[T]) MarshalJSON() ([]byte, error) {
+	fmt.Println("MarshalJSON called for entity handler")
+	j, err := json.Marshal(struct {
+		ComponentsSlice []T
+		FreeIds         utils.NumberHeap[int]
+		FreeIdsSlice    []bool
+	}{
+		ComponentsSlice: ch.componentsSlice,
+		FreeIds:         ch.freeIds,
+		FreeIdsSlice:    ch.freeIdsSlice,
+	})
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	return j, nil
 }

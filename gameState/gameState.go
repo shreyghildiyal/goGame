@@ -109,6 +109,8 @@ func Newgame() *GameState {
 	game.Entities.AddEntity(constants.STAR)
 	game.Entities.AddEntity(constants.STAR)
 	game.Entities.AddEntity(constants.STAR)
+	// game.Entities.AddEntityWithId(6, constants.STAR)
+	game.Entities.DeleteEntity(1)
 
 	game.loadSaveGame()
 
