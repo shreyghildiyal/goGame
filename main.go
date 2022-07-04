@@ -10,14 +10,14 @@ import (
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
 
-func GetImages(paths []string) []*ebiten.Image {
-	images := make([]*ebiten.Image, len(paths))
+// func GetImages(paths []string) []*ebiten.Image {
+// 	images := make([]*ebiten.Image, len(paths))
 
-	for i, path := range paths {
-		images[i] = ebiten.NewImageFromImage(imageutils.GetImage(path))
-	}
-	return images
-}
+// 	for i, path := range paths {
+// 		images[i] = ebiten.NewImageFromImage(imageutils.GetImage(path))
+// 	}
+// 	return images
+// }
 
 func main() {
 

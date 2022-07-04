@@ -10,7 +10,7 @@ import (
 	"golang.org/x/image/font"
 )
 
-func DrawSprite(screen *ebiten.Image, camera *camera.Camera, drawable components.Drawable, coordinates components.Coordinates) {
+func DrawSprite(screen *ebiten.Image, camera *camera.Camera, drawable *components.Drawable, coordinates components.Coordinates) {
 
 	// disp := entity.GetDisplay()
 

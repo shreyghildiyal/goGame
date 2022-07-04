@@ -21,17 +21,6 @@ func (ch *ComponentHandler[T]) GetComponent(id int) (T, error) {
 	if id >= len(ch.componentsSlice) {
 		return nilVar, fmt.Errorf("no entity with id %d exists", id)
 	} else if ch.freeIdsSlice[id] {
-		// found := false
-		// for _, freeId := range ch.freeIds.Dump() {
-		// 	if freeId == id {
-		// 		found = true
-		// 		break
-		// 	}
-		// }
-		// if !found {
-		// 	return nilVar, fmt.Errorf("no entity at id %d. however the id is not available. something really wonky going on", id)
-		// }
-
 		return nilVar, fmt.Errorf("no entity with id %d exists", id)
 	} else {
 		return ch.componentsSlice[id], nil

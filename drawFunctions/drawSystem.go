@@ -14,17 +14,17 @@ func DrawSystem(
 	camera *camera.Camera,
 	currentSystemId int,
 	entityHandler entities.EntityHandler,
-	drawables components.ComponentHandler[*components.Drawable],
+	drawables components.ComponentHandler[*components.SystemDrawable],
 	inSystemHandler components.ComponentHandler[*components.InSystem],
 ) {
 
 	for i := 0; i < drawables.Len(); i++ {
-		drawable, err := drawables.GetComponent(i)
+		systemDrawable, err := drawables.GetComponent(i)
 		if err != nil {
 			continue
 		}
 		// fmt.Printf("Drawable with Id %d exists\n", i)
-		entityId := drawable.GetEntityId()
+		entityId := systemDrawable.GetEntityId()
 		entity, err := entityHandler.GetEntity(entityId)
 		if err != nil {
 			continue
@@ -43,8 +43,9 @@ func DrawSystem(
 			}
 			if inSystemComponent.GetSystemId() == currentSystemId {
 				// if systemCoordinates[]
+				// drawObj := *systemDrawable
 
-				DrawSprite(screen, camera, *drawable, inSystemComponent.Coordinates)
+				DrawSprite(screen, camera, (*components.Drawable)(systemDrawable), inSystemComponent.Coordinates)
 			}
 		}
 

@@ -16,8 +16,8 @@ func AddPlanet(entityHandler *entities.EntityHandler, gs *GameState) {
 
 	// drawable := components.Drawable{Image: imageutils.GetPlanetImage("planetType1")}
 	// drawable.SetEntity(entityId, constants.PLANET)
-	drawable := components.NewDrawable(entityId, constants.PLANET, "planetType1", 50, 50)
-	gs.drawableHandler.AddComponent(&drawable)
+	drawable := components.NewDrawable[components.SystemDrawable](entityId, constants.PLANET, "planetType1", 50, 50)
+	gs.systemDrawableHandler.AddComponent(&drawable)
 	gs.Entities.AddComponentToEntity(entityId, drawable.GetId(), constants.INSYSTEM)
 
 	inSystem := components.NewInSystemComponent(0, entityId, constants.PLANET, 100, 600)

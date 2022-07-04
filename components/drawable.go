@@ -16,16 +16,25 @@ type Drawable struct {
 	baseComponent
 }
 
-func NewDrawable(entityId int, entityType constants.EntityType, imageName string, height, width float64) Drawable {
-	drawable := Drawable{
-		Image:         imageutils.GetPlanetImage(imageName),
+type SystemDrawable Drawable
+type GalaxyDrawable Drawable
+
+func NewDrawable[T SystemDrawable | GalaxyDrawable](entityId int, entityType constants.EntityType, imageName string, height, width float64) T {
+
+	image := imageutils.GetImageFromMap(imageName)
+	scaleX := width / float64(image.Bounds().Dx())
+	scaleY := height / float64(image.Bounds().Dy())
+	drawable := T{
+		Image:         imageutils.GetImageFromMap(imageName),
 		TargetHeight:  height,
 		TargetWidth:   width,
+		ScaleX:        scaleX,
+		ScaleY:        scaleY,
 		baseComponent: baseComponent{entityId: entityId, entityType: entityType},
 	}
 
-	drawable.ScaleX = drawable.TargetWidth / float64(drawable.Image.Bounds().Dx())
-	drawable.ScaleY = drawable.TargetHeight / float64(drawable.Image.Bounds().Dy())
+	// drawable.ScaleX = drawable.TargetWidth / float64(drawable.Image.Bounds().Dx())
+	// drawable.ScaleY = drawable.TargetHeight / float64(drawable.Image.Bounds().Dy())
 
 	return drawable
 }

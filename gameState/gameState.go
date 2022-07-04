@@ -42,7 +42,9 @@ type GameState struct {
 	Camera          camera.Camera
 	Keys            []ebiten.Key
 
-	drawableHandler components.ComponentHandler[*components.Drawable]
+	// drawableHandler components.ComponentHandler[*components.Drawable]
+	systemDrawableHandler components.ComponentHandler[*components.SystemDrawable]
+	galaxyDrawableHandler components.ComponentHandler[*components.GalaxyDrawable]
 	// coordinateHandler components.ComponentHandler[*components.Coordinates]
 	inSystemHandler components.ComponentHandler[*components.InSystem]
 
@@ -77,7 +79,7 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 		// drawfunctions.DrawGalaxy(screen, g.Camera, g.Systems)
 	case SystemView:
 		// fmt.Println("Drawing System")
-		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Entities, g.drawableHandler, g.inSystemHandler)
+		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Entities, g.systemDrawableHandler, g.inSystemHandler)
 	case MenuView:
 		drawfunctions.DrawMenu(screen)
 	}
@@ -93,7 +95,8 @@ func Newgame() *GameState {
 
 	game := GameState{}
 
-	game.Background = ebiten.NewImageFromImage(imageutils.GetImage(config.GetConfig().BackgroundImagePath))
+	// game.Background = ebiten.NewImageFromImage(imageutils.GetImageFromMap(config.GetConfig().BackgroundImagePath))
+	game.Background = imageutils.GetImageFromMap("backgroundImage")
 	// game.Systems = spaceEntities.LoadSystems()
 	// fmt.Println("Systems", game.Systems)
 	// spaceEntities.CreateWarpLines(game.Systems)
