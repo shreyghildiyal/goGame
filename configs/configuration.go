@@ -29,19 +29,18 @@ type ScreenSize struct {
 }
 
 type Configuration struct {
-	// BackgroundImagePath string `json:"backgroundImage"`
-	// PlanetsFile           string            `json:"planetsFile"`
-	// SystemsFile           string            `json:"systemsFile"`
-	// SystemsConnectionFile string            `json:"systemsConnectionFile"`
-	// WarpLines    WarpLines         `json:"warpLines"`
-	// PlanetImages map[string]string `json:"planetImages"`
-	// StarImages   map[string]string `json:"starImages"`
 	Text         TextConf          `json:"text"`
 	Images       map[string]string `json:"images"`
 	Camera       Camera            `json:"camera"`
 	ScreenSize   ScreenSize        `json:"screenSize"`
 	EntitiesFile string            `json:"entitiesFile"`
 	SaveGameDir  string            `json:"saveGameDir"`
+	MarketConfs  MarketConfigs     `json:"marketConfigs"`
+}
+
+type MarketConfigs struct {
+	PriceAdjustmentFactor    float64 `json:"priceAdjustmentFactor"`
+	AdjustmentMinBuyQuantity float64 `json:"adjustmentMinBuyQuantity"`
 }
 
 type WarpLines struct {

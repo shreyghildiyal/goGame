@@ -1,6 +1,8 @@
 linters:
-  settings:
-    gocognit:
-      # Minimal code complexity to report.
-      # Default: 30 (but we recommend 10-20)
-      min-complexity: 10
+  enable:
+    - cyclop # Enables the complexity linter
+
+linters-settings:
+  cyclop:
+    max-complexity: 10 # Report issues for functions with complexity > 10
+    # package-average: 0.0 # You can also set an average complexity for the whole package
