@@ -47,13 +47,14 @@ type Market struct {
 	adjustmentMinBuyQuantity float64
 }
 
-func NewMarket(marketId int, marketName string) Market {
+func NewMarket(marketId int, marketName string, prices map[ItemId]float64, configs config.Configuration) Market {
 
 	return Market{
 		id:                       marketId,
 		name:                     marketName,
-		priceAdjustmentFactor:    config.GetConfig().MarketConfs.PriceAdjustmentFactor,
-		adjustmentMinBuyQuantity: config.GetConfig().MarketConfs.AdjustmentMinBuyQuantity,
+		prices:                   prices,
+		priceAdjustmentFactor:    configs.MarketConfs.PriceAdjustmentFactor,
+		adjustmentMinBuyQuantity: configs.MarketConfs.AdjustmentMinBuyQuantity,
 	}
 }
 
