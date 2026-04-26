@@ -1,6 +1,9 @@
 package market
 
 import (
+	"fmt"
+	"sync"
+
 	config "github.com/shreyghildiyal/goGame/configs"
 )
 
@@ -37,6 +40,9 @@ type TradeItem struct {
 
 const DEFAULT_PRICE float64 = 10.0
 
+/*
+Basic Market object. Dont create directly use NewMarket()
+*/
 type Market struct {
 	prices                   map[ItemId]float64
 	id                       int
@@ -47,12 +53,17 @@ type Market struct {
 	adjustmentMinBuyQuantity float64
 }
 
+/*
+Creating a new Market. We should use this when creating a market object.
+*/
 func NewMarket(marketId int, marketName string, prices map[ItemId]float64, configs config.Configuration) Market {
 
 	return Market{
 		id:                       marketId,
 		name:                     marketName,
 		prices:                   prices,
+		buyOrders:                map[ItemId]map[MarketParticipantId]float64{},
+		sellOrders:               map[ItemId]map[MarketParticipantId]float64{},
 		priceAdjustmentFactor:    configs.MarketConfs.PriceAdjustmentFactor,
 		adjustmentMinBuyQuantity: configs.MarketConfs.AdjustmentMinBuyQuantity,
 	}
@@ -63,12 +74,19 @@ func (m *Market) AddBuyOrder(itemId ItemId, buyerId MarketParticipantId, quantit
 	if _, ok := m.prices[itemId]; !ok {
 		m.prices[itemId] = DEFAULT_PRICE
 	}
+
+	if _, ok := m.buyOrders[itemId]; !ok {
+		m.buyOrders[itemId] = map[MarketParticipantId]float64{}
+	}
 	m.buyOrders[itemId][buyerId] = quantity
 }
 
 func (m *Market) AddSellOrder(itemId ItemId, sellerId MarketParticipantId, quantity float64) {
 	if _, ok := m.prices[itemId]; !ok {
 		m.prices[itemId] = DEFAULT_PRICE
+	}
+	if _, ok := m.sellOrders[itemId]; !ok {
+		m.sellOrders[itemId] = map[MarketParticipantId]float64{}
 	}
 	m.sellOrders[itemId][sellerId] = quantity
 }
@@ -82,25 +100,41 @@ type settlementUpdate struct {
 
 /**
 * The idea is that on settlement, the market participants have their inventories and wallets update deltas calculated.
-* actioning it is not the market's responsibiity. the Orchestratortakes care of it
+* Actual inventory and wallet updates is not the market's responsibiity. the Orchestrator takes care of it
 * the market decides on the trades and transfers and then updates its prices
  */
 func (m *Market) Settle() (map[ItemId]map[MarketParticipantId]float64, map[MarketParticipantId]float64) {
 
+	fmt.Println("Starting market Settlement")
+
 	itemTransfers := make(map[ItemId]map[MarketParticipantId]float64, len(m.prices))
 	moneyTransfers := make(map[MarketParticipantId]float64, len(m.prices))
 
-	itemUpdates := make(chan settlementUpdate)
+	itemUpdatesCh := make(chan settlementUpdate)
+	itemUpdateWg := sync.WaitGroup{}
 
 	// update all the transactions that need to happen. money and items
 	for itemId := range m.prices {
+		fmt.Println("Starting routine for Item ", itemId)
 		itemId := itemId
 
-		go processItem(itemUpdates, *m, itemId)
+		itemUpdateWg.Add(1)
+		go func(iId ItemId) {
+			defer itemUpdateWg.Done()
+			update := processItem(*m, itemId)
+			itemUpdatesCh <- update
+		}(itemId)
 
 	}
 
-	for update := range itemUpdates {
+	go func() {
+		itemUpdateWg.Wait()
+		close(itemUpdatesCh)
+	}()
+
+	fmt.Println("waiting for channel to complete")
+	for update := range itemUpdatesCh {
+		fmt.Println("got result for item ", update.itemId)
 		itemTransfers[update.itemId] = update.itemTransferMap
 		for participantId, amount := range update.moneyTransferMap {
 			moneyTransfers[participantId] += amount
@@ -108,10 +142,20 @@ func (m *Market) Settle() (map[ItemId]map[MarketParticipantId]float64, map[Marke
 		m.prices[update.itemId] = update.newPrice
 	}
 
+	fmt.Println("resetting market buy/sell orders")
+
+	for ii := range m.buyOrders {
+		delete(m.buyOrders, ii)
+	}
+
+	for ii := range m.sellOrders {
+		delete(m.sellOrders, ii)
+	}
+
 	return itemTransfers, moneyTransfers
 }
 
-func processItem(updateChannel chan settlementUpdate, m Market, itemId ItemId) {
+func processItem(m Market, itemId ItemId) settlementUpdate {
 	totalbuyQuantity := getTotalQuantity(m.buyOrders[itemId])
 	totalSellQuantity := getTotalQuantity(m.sellOrders[itemId])
 
@@ -155,8 +199,8 @@ func processItem(updateChannel chan settlementUpdate, m Market, itemId ItemId) {
 	// alternatively we can have a min demand count below which prices dont increase if there are zero sell orders
 	// the second approach seems to be less brittle, if we are sure the demand is going to keep going down with increases prices
 
-	priceAdjustmentFactor := config.GetConfig().MarketConfs.PriceAdjustmentFactor
-	adjustmentMinBuyQuantity := config.GetConfig().MarketConfs.AdjustmentMinBuyQuantity
+	priceAdjustmentFactor := m.priceAdjustmentFactor
+	adjustmentMinBuyQuantity := m.adjustmentMinBuyQuantity
 	if totalSellQuantity == 0 {
 		if totalbuyQuantity >= adjustmentMinBuyQuantity {
 			updates.newPrice = m.prices[itemId] * (1 + priceAdjustmentFactor)
@@ -168,7 +212,7 @@ func processItem(updateChannel chan settlementUpdate, m Market, itemId ItemId) {
 
 	}
 
-	updateChannel <- updates
+	return updates
 
 }
 

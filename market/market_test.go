@@ -12,7 +12,12 @@ func TestMarketSettle(t *testing.T) {
 		1: 10,
 	}
 
-	cnf := config.Configuration{}
+	cnf := config.Configuration{
+		MarketConfs: config.MarketConfigs{
+			PriceAdjustmentFactor:    0.1,
+			AdjustmentMinBuyQuantity: 1,
+		},
+	}
 	m := market.NewMarket(1, "test", initialPrices, cnf)
 
 	m.AddBuyOrder(1, 1, 2)
