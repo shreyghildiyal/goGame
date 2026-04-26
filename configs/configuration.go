@@ -51,14 +51,14 @@ func GetConfig() Configuration {
 	if config == nil {
 		confMutex.Lock()
 		if config == nil {
-			LoadConfig()
+			loadConfig()
 		}
 		confMutex.Unlock()
 	}
 	return *config
 }
 
-func LoadConfig() {
+func loadConfig() {
 	confFile := "conf.json"
 
 	data, err := ioutil.ReadFile(confFile)

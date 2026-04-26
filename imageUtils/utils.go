@@ -65,7 +65,7 @@ func GetImageFromMap(imageName string) *ebiten.Image {
 // 	return ebiten.NewImageFromImage(*planetImagesMap[planetImageType])
 // }
 
-func InitImageMaps() {
+func InitImageMaps(conf config.Configuration) {
 
 	fmt.Println("Initializing image maps")
 	// initStarImageMap()
@@ -79,7 +79,7 @@ func InitImageMaps() {
 	// fmt.Println("Number of planet images in map", len(planetImagesMap))
 	// initPlanetImageMap()
 	imagesMap = map[string]*image.Image{}
-	initImageMap(imagesMap, config.GetConfig().Images)
+	initImageMap(imagesMap, conf.Images)
 	fmt.Println("Number of images in map", len(imagesMap))
 }
 

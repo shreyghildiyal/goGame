@@ -86,12 +86,12 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 
 }
 
-func Newgame() *GameState {
+func Newgame(conf config.Configuration) *GameState {
 
 	fmt.Println("planet", constants.PLANET)
 	fmt.Println("star", constants.STAR)
 
-	imageutils.InitImageMaps()
+	imageutils.InitImageMaps(conf)
 
 	game := GameState{}
 
