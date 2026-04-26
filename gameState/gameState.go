@@ -103,15 +103,9 @@ func Newgame(conf config.Configuration) *GameState {
 	// spaceEntities.CreateWarpLines(game.Systems)
 	// game.Planets = spaceEntities.LoadPlanets()
 	game.PrevUpdate = time.Now()
-	game.CurrentView = SystemView
+	game.CurrentView = GalaxyView
 	game.Camera.Zoom = 1
 	game.CurrentSystemId = 0
-
-	game.Entities.AddEntity(constants.STAR)
-	game.Entities.AddEntity(constants.STAR)
-	game.Entities.AddEntity(constants.STAR)
-	// game.Entities.AddEntityWithId(6, constants.STAR)
-	game.Entities.DeleteEntity(1)
 
 	game.loadSaveGame()
 

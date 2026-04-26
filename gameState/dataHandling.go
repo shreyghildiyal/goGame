@@ -33,10 +33,13 @@ func (gs *GameState) saveGame() {
 		},
 	)
 
+	if err == nil {
+		err = utils.SaveToFile(jsonStr, "quickSave.json", gs.conf.SaveGameDir)
+
+	}
+
 	if err != nil {
-		log.Println("Error marshalling to json string", err)
-	} else {
-		utils.SaveToFile(jsonStr, "quickSave.json", gs.conf.SaveGameDir)
+		log.Println("Error saving game", err)
 	}
 
 }
