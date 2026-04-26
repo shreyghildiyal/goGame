@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-
-	config "github.com/shreyghildiyal/goGame/configs"
 )
 
 func GetCsvRecords(filePath string) ([][]string, error) {
@@ -28,9 +26,9 @@ func GetCsvRecords(filePath string) ([][]string, error) {
 	return records, nil
 }
 
-func SaveToFile(jsonStr []byte, fileName string) error {
+func SaveToFile(jsonStr []byte, fileName string, saveDir string) error {
 
-	saveDir := config.GetConfig().SaveGameDir
+	// saveDir := config.GetConfig().SaveGameDir
 	var filePath string
 	if len(saveDir) == 0 {
 		filePath = fileName

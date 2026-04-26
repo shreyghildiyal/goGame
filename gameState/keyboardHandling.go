@@ -9,19 +9,18 @@ import (
 	config "github.com/shreyghildiyal/goGame/configs"
 )
 
-func HandleKeyboardInput(dt time.Duration, g *GameState) {
+func HandleKeyboardInput(dt time.Duration, g *GameState, cameraConf config.Camera) {
 
 	var timeMulti float64 = float64(dt.Microseconds()) / 1000000
-	// fmt.Println("time Multi", timeMulti)
-	// fmt.Println("Speed", config.GetConfig().Camera.SpeedX, config.GetConfig().Camera.SpeedY)
+
 	if ebiten.IsKeyPressed(ebiten.KeyUp) {
-		g.Camera.Y += config.GetConfig().Camera.SpeedY * timeMulti
+		g.Camera.Y += cameraConf.SpeedY * timeMulti
 	} else if ebiten.IsKeyPressed(ebiten.KeyDown) {
-		g.Camera.Y -= config.GetConfig().Camera.SpeedY * timeMulti
+		g.Camera.Y -= cameraConf.SpeedY * timeMulti
 	} else if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-		g.Camera.X += config.GetConfig().Camera.SpeedX * timeMulti
+		g.Camera.X += cameraConf.SpeedX * timeMulti
 	} else if ebiten.IsKeyPressed(ebiten.KeyRight) {
-		g.Camera.X -= config.GetConfig().Camera.SpeedX * timeMulti
+		g.Camera.X -= cameraConf.SpeedX * timeMulti
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeySpace) {

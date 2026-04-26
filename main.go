@@ -14,8 +14,8 @@ func main() {
 
 	conf := config.GetConfig()
 	imageutils.InitImageMaps(conf)
-	gametext.InitFonts()
-	ebiten.SetWindowSize(config.GetConfig().ScreenSize.Width, config.GetConfig().ScreenSize.Height)
+	gametext.InitFonts(conf)
+	ebiten.SetWindowSize(conf.ScreenSize.Width, conf.ScreenSize.Height)
 	ebiten.SetWindowTitle("Ebiten game practice")
 
 	game := gamestate.Newgame(conf)

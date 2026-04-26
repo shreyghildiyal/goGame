@@ -34,6 +34,7 @@ const (
 // )
 
 type GameState struct {
+	conf            config.Configuration
 	Entities        entities.EntityHandler
 	Background      *ebiten.Image
 	CurrentSystemId int
@@ -56,7 +57,7 @@ func (g *GameState) Update() error {
 
 	dt := time.Since(g.PrevUpdate)
 
-	HandleKeyboardInput(dt, g)
+	HandleKeyboardInput(dt, g, g.conf.Camera)
 
 	HandleMouseInput(dt, g)
 
@@ -94,7 +95,7 @@ func Newgame(conf config.Configuration) *GameState {
 	imageutils.InitImageMaps(conf)
 
 	game := GameState{}
-
+	game.conf = conf
 	// game.Background = ebiten.NewImageFromImage(imageutils.GetImageFromMap(config.GetConfig().BackgroundImagePath))
 	game.Background = imageutils.GetImageFromMap("backgroundImage")
 	// game.Systems = spaceEntities.LoadSystems()
@@ -119,5 +120,6 @@ func Newgame(conf config.Configuration) *GameState {
 }
 
 func (g *GameState) Layout(outsideWidth, outsideHeight int) (int, int) {
-	return config.GetConfig().ScreenSize.Width, config.GetConfig().ScreenSize.Height
+
+	return g.conf.ScreenSize.Width, g.conf.ScreenSize.Height
 }

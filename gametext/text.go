@@ -11,12 +11,12 @@ var (
 	SpaceDisplayFont font.Face
 )
 
-func InitFonts() {
+func InitFonts(conf config.Configuration) {
 
 	tt, _ := opentype.Parse(fonts.MPlus1pRegular_ttf)
 	SpaceDisplayFont, _ = opentype.NewFace(tt, &opentype.FaceOptions{
-		Size:    float64(config.GetConfig().Text.Size),
-		DPI:     config.GetConfig().Text.Dpi,
+		Size:    float64(conf.Text.Size),
+		DPI:     conf.Text.Dpi,
 		Hinting: font.HintingFull,
 	})
 }
