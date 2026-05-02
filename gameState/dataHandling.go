@@ -25,10 +25,10 @@ func (gs *GameState) saveGame() {
 			Entities   *entities.EntityHandler `json:"entities"`
 			Components DummyComponents         `json:"components"`
 		}{
-			Entities: &gs.Entities,
+			// Entities: &gs.Entities,
 			Components: DummyComponents{
-				SystemDrawables: gs.systemDrawableHandler,
-				GalaxyDrawables: gs.galaxyDrawableHandler,
+				// SystemDrawables: gs.systemDrawableHandler,
+				// GalaxyDrawables: gs.galaxyDrawableHandler,
 			},
 		},
 	)

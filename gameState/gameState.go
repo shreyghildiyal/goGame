@@ -7,11 +7,10 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/shreyghildiyal/goGame/camera"
-	"github.com/shreyghildiyal/goGame/components"
 	config "github.com/shreyghildiyal/goGame/configs"
 	"github.com/shreyghildiyal/goGame/constants"
 	drawfunctions "github.com/shreyghildiyal/goGame/drawFunctions"
-	"github.com/shreyghildiyal/goGame/entities"
+	gameobjects "github.com/shreyghildiyal/goGame/gameobjects"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
 
@@ -34,23 +33,24 @@ const (
 // )
 
 type GameState struct {
-	conf            config.Configuration
-	Entities        entities.EntityHandler
+	conf config.Configuration
+	// Entities        entities.EntityHandler
 	Background      *ebiten.Image
 	CurrentSystemId int
 	PrevUpdate      time.Time
 	CurrentView     ViewType
 	Camera          camera.Camera
 	Keys            []ebiten.Key
+	Galaxy          gameobjects.Galaxy
 
-	// drawableHandler components.ComponentHandler[*components.Drawable]
-	systemDrawableHandler components.ComponentHandler[*components.SystemDrawable]
-	galaxyDrawableHandler components.ComponentHandler[*components.GalaxyDrawable]
-	// coordinateHandler components.ComponentHandler[*components.Coordinates]
-	inSystemHandler components.ComponentHandler[*components.InSystem]
-
-	// systemCoordinateHandler components.ComponentHandler[*components.SystemCoordinates]
-	// galaxyCoordinateHandler components.ComponentHandler[*components.GalaxyCoordinates]
+	// We want a list of all drawable entities. With Ids
+	// We will then have a list of various base entities in each view.
+	// For galaxy view, base entitites will be stars
+	// For system view, base entities will be derived from the star object.
+	// We probably also need an empires list.
+	// in galaxyview, we will iterate through each star. we will find its corresponding drawable entity, and draw it
+	// in system view, we will draw the star at the center. we will then get the planets and fleets in the star system.
+	// then we will get the corresponding drawable entity and draw it
 }
 
 func (g *GameState) Update() error {
@@ -80,7 +80,7 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 		// drawfunctions.DrawGalaxy(screen, g.Camera, g.Systems)
 	case SystemView:
 		// fmt.Println("Drawing System")
-		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Entities, g.systemDrawableHandler, g.inSystemHandler)
+		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId)
 	case MenuView:
 		drawfunctions.DrawMenu(screen)
 	}
@@ -109,7 +109,7 @@ func Newgame(conf config.Configuration) *GameState {
 
 	game.loadSaveGame()
 
-	fmt.Println("Number of inSystems", game.inSystemHandler.Len())
+	// fmt.Println("Number of inSystems", game.inSystemHandler.Len())
 	return &game
 }
 

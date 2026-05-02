@@ -3,9 +3,6 @@ package drawfunctions
 import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/shreyghildiyal/goGame/camera"
-	"github.com/shreyghildiyal/goGame/components"
-	"github.com/shreyghildiyal/goGame/constants"
-	"github.com/shreyghildiyal/goGame/entities"
 	// "github.com/shreyghildiyal/goGame/spaceEntities"
 )
 
@@ -13,43 +10,43 @@ func DrawSystem(
 	screen *ebiten.Image,
 	camera *camera.Camera,
 	currentSystemId int,
-	entityHandler entities.EntityHandler,
-	drawables components.ComponentHandler[*components.SystemDrawable],
-	inSystemHandler components.ComponentHandler[*components.InSystem],
+	// entityHandler entities.EntityHandler,
+	// drawables components.ComponentHandler[*components.SystemDrawable],
+	// inSystemHandler components.ComponentHandler[*components.InSystem],
 ) {
 
-	for i := 0; i < drawables.Len(); i++ {
-		systemDrawable, err := drawables.GetComponent(i)
-		if err != nil {
-			continue
-		}
-		// fmt.Printf("Drawable with Id %d exists\n", i)
-		entityId := systemDrawable.GetEntityId()
-		entity, err := entityHandler.GetEntity(entityId)
-		if err != nil {
-			continue
-		}
-		// fmt.Printf("entity %d retrieved for drawable %d\n", entityId, i)
-		inSystemIds, err := entity.GetComponentIds(constants.INSYSTEM)
-		if err != nil {
-			// fmt.Printf("The entity %d is not in a system\n", entityId)
-			continue
-		}
-		for _, inSysId := range inSystemIds {
-			inSystemComponent, err := inSystemHandler.GetComponent(inSysId)
-			if err != nil {
-				// fmt.Printf("entity %d connected to  inSystem %d that isnt registered", entityId, inSysId)
-				continue
-			}
-			if inSystemComponent.GetSystemId() == currentSystemId {
-				// if systemCoordinates[]
-				// drawObj := *systemDrawable
+	// for i := 0; i < drawables.Len(); i++ {
+	// 	systemDrawable, err := drawables.GetComponent(i)
+	// 	if err != nil {
+	// 		continue
+	// 	}
+	// 	// fmt.Printf("Drawable with Id %d exists\n", i)
+	// 	entityId := systemDrawable.GetEntityId()
+	// 	entity, err := entityHandler.GetEntity(entityId)
+	// 	if err != nil {
+	// 		continue
+	// 	}
+	// 	// fmt.Printf("entity %d retrieved for drawable %d\n", entityId, i)
+	// 	inSystemIds, err := entity.GetComponentIds(constants.INSYSTEM)
+	// 	if err != nil {
+	// 		// fmt.Printf("The entity %d is not in a system\n", entityId)
+	// 		continue
+	// 	}
+	// 	for _, inSysId := range inSystemIds {
+	// 		inSystemComponent, err := inSystemHandler.GetComponent(inSysId)
+	// 		if err != nil {
+	// 			// fmt.Printf("entity %d connected to  inSystem %d that isnt registered", entityId, inSysId)
+	// 			continue
+	// 		}
+	// 		if inSystemComponent.GetSystemId() == currentSystemId {
+	// 			// if systemCoordinates[]
+	// 			// drawObj := *systemDrawable
 
-				DrawSprite(screen, camera, (*components.Drawable)(systemDrawable), inSystemComponent.Coordinates)
-			}
-		}
+	// 			DrawSprite(screen, camera, (*components.Drawable)(systemDrawable), inSystemComponent.Coordinates)
+	// 		}
+	// 	}
 
-	}
+	// }
 
 	// DrawSystemStar(screen, system)
 }
