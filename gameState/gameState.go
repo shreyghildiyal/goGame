@@ -10,6 +10,7 @@ import (
 	config "github.com/shreyghildiyal/goGame/configs"
 	"github.com/shreyghildiyal/goGame/constants"
 	drawfunctions "github.com/shreyghildiyal/goGame/drawFunctions"
+	"github.com/shreyghildiyal/goGame/drawing"
 	"github.com/shreyghildiyal/goGame/gameobjects"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
@@ -77,7 +78,7 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 
 	switch g.CurrentView {
 	case GalaxyView:
-		// drawfunctions.DrawGalaxy(screen, g.Camera, g.Systems)
+		drawfunctions.DrawGalaxy(screen, g.Camera, g.Galaxy)
 	case SystemView:
 		// fmt.Println("Drawing System")
 		drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId)
@@ -95,6 +96,17 @@ func Newgame(conf config.Configuration) *GameState {
 	imageutils.InitImageMaps(conf)
 
 	game := GameState{}
+	game.Galaxy = gameobjects.Galaxy{
+		Stars: []gameobjects.Star{
+			{
+				Drawable: drawing.Drawable{
+					X:     10,
+					Y:     10,
+					Image: imageutils.GetImageFromMap("redDwarf"),
+				},
+			},
+		},
+	}
 	game.conf = conf
 	// game.Background = ebiten.NewImageFromImage(imageutils.GetImageFromMap(config.GetConfig().BackgroundImagePath))
 	game.Background = imageutils.GetImageFromMap("backgroundImage")
@@ -107,7 +119,7 @@ func Newgame(conf config.Configuration) *GameState {
 	game.Camera.Zoom = 1
 	game.CurrentSystemId = 0
 
-	game.loadSaveGame()
+	// game.loadSaveGame()
 
 	// fmt.Println("Number of inSystems", game.inSystemHandler.Len())
 	return &game

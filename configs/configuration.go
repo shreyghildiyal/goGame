@@ -3,8 +3,8 @@ package config
 import (
 	"encoding/json"
 	"image/color"
-	"io/ioutil"
 	"log"
+	"os"
 	"sync"
 )
 
@@ -61,7 +61,7 @@ func GetConfig() Configuration {
 func loadConfig() {
 	confFile := "conf.json"
 
-	data, err := ioutil.ReadFile(confFile)
+	data, err := os.ReadFile(confFile)
 	if err != nil {
 		log.Fatal(err)
 	}
