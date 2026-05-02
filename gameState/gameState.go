@@ -10,7 +10,7 @@ import (
 	config "github.com/shreyghildiyal/goGame/configs"
 	"github.com/shreyghildiyal/goGame/constants"
 	drawfunctions "github.com/shreyghildiyal/goGame/drawFunctions"
-	gameobjects "github.com/shreyghildiyal/goGame/gameobjects"
+	"github.com/shreyghildiyal/goGame/gameobjects"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
 
