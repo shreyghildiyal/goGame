@@ -2,6 +2,7 @@ package drawing
 
 import (
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/shreyghildiyal/goGame/camera"
 )
 
 type Drawable struct {
@@ -12,11 +13,11 @@ type Drawable struct {
 	Image        *ebiten.Image
 }
 
-func (d *Drawable) Draw(screen *ebiten.Image) {
+func (d *Drawable) Draw(screen *ebiten.Image, camera camera.Camera) {
 
 	geom := ebiten.GeoM{}
-	geom.Scale(d.TargetWidth/float64(d.Image.Bounds().Dx()), d.TargetHeight/float64(d.Image.Bounds().Dy()))
-	geom.Translate(d.X-(d.TargetWidth/2), d.Y-(d.TargetHeight/2))
+	geom.Scale(camera.Zoom*d.TargetWidth/float64(d.Image.Bounds().Dx()), camera.Zoom*d.TargetHeight/float64(d.Image.Bounds().Dy()))
+	geom.Translate(camera.Zoom*(camera.X-(d.X-(d.TargetWidth/2))), camera.Zoom*(camera.Y-(d.Y-(d.TargetHeight/2))))
 
 	opts := ebiten.DrawImageOptions{
 		GeoM: ebiten.GeoM{},

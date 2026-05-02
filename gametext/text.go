@@ -1,7 +1,7 @@
 package gametext
 
 import (
-	"github.com/hajimehoshi/ebiten/examples/resources/fonts"
+	"github.com/hajimehoshi/ebiten/v2/examples/resources/fonts"
 	config "github.com/shreyghildiyal/goGame/configs"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
