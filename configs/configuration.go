@@ -29,13 +29,13 @@ type ScreenSize struct {
 }
 
 type Configuration struct {
-	Text         TextConf          `json:"text"`
-	Images       map[string]string `json:"images"`
-	Camera       Camera            `json:"camera"`
-	ScreenSize   ScreenSize        `json:"screenSize"`
-	EntitiesFile string            `json:"entitiesFile"`
-	SaveGameDir  string            `json:"saveGameDir"`
-	MarketConfs  MarketConfigs     `json:"marketConfigs"`
+	Text         TextConf      `json:"text"`
+	ImagesFile   string        `json:"imagesFile"`
+	Camera       Camera        `json:"camera"`
+	ScreenSize   ScreenSize    `json:"screenSize"`
+	EntitiesFile string        `json:"entitiesFile"`
+	SaveGameDir  string        `json:"saveGameDir"`
+	MarketConfs  MarketConfigs `json:"marketConfigs"`
 }
 
 type MarketConfigs struct {

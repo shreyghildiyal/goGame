@@ -1,0 +1,9 @@
+{
+    "backgroundImage": "images/space.png",
+    "redDwarf": "images/spaceSprites/Sun_00000.png",
+    "planetType1": "images/spaceSprites/Planet1.png",
+    "planetType2": "images/spaceSprites/Planet2.png",
+    "planetType3": "images/spaceSprites/Planet3.png",
+    "planetType4": "images/spaceSprites/Planet4.png",
+    "planetType5": "images/spaceSprites/Planet5.png"
+}

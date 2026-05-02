@@ -1,6 +1,7 @@
 package imageutils
 
 import (
+	"encoding/json"
 	"fmt"
 	"image"
 	"image/png"
@@ -65,7 +66,7 @@ func GetImageFromMap(imageName string) *ebiten.Image {
 // 	return ebiten.NewImageFromImage(*planetImagesMap[planetImageType])
 // }
 
-func InitImageMaps(conf config.Configuration) {
+func InitImageMaps(conf config.Configuration) error {
 
 	fmt.Println("Initializing image maps")
 	// initStarImageMap()
@@ -79,8 +80,31 @@ func InitImageMaps(conf config.Configuration) {
 	// fmt.Println("Number of planet images in map", len(planetImagesMap))
 	// initPlanetImageMap()
 	imagesMap = map[string]*image.Image{}
-	initImageMap(imagesMap, conf.Images)
+	imgPathMap, err := imagePathMap(conf.ImagesFile)
+	if err != nil {
+		fmt.Println("imgPathMap loading error")
+		return err
+	}
+	initImageMap(imagesMap, imgPathMap)
 	fmt.Println("Number of images in map", len(imagesMap))
+	return nil
+}
+
+func imagePathMap(imagesFile string) (map[string]string, error) {
+	imgFileMap := map[string]string{}
+
+	res, err := os.ReadFile(imagesFile)
+	if err != nil {
+		fmt.Println("failed to read file", imagesFile)
+		return nil, err
+	}
+	err = json.Unmarshal(res, &imgFileMap)
+	if err != nil {
+		fmt.Println("failed to unmarshal json")
+		return nil, err
+	}
+
+	return imgFileMap, nil
 }
 
 func initImageMap(imgmap map[string]*image.Image, pathMap map[string]string) {
