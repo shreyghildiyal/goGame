@@ -88,20 +88,30 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 
 }
 
-func Newgame(conf config.Configuration) *GameState {
+func Newgame(conf config.Configuration) (*GameState, error) {
 
 	fmt.Println("planet", constants.PLANET)
 	fmt.Println("star", constants.STAR)
 
-	imageutils.InitImageMaps(conf)
+	err := imageutils.InitImageMaps(conf)
+	if err != nil {
+		return nil, err
+	}
 
 	game := GameState{}
 	game.Galaxy = gameobjects.Galaxy{
 		Stars: []gameobjects.Star{
 			{
 				Drawable: drawing.Drawable{
-					X:     10,
-					Y:     10,
+					X:     0,
+					Y:     0,
+					Image: imageutils.GetImageFromMap("redDwarf"),
+				},
+			},
+			{
+				Drawable: drawing.Drawable{
+					X:     100,
+					Y:     100,
 					Image: imageutils.GetImageFromMap("redDwarf"),
 				},
 			},
@@ -117,12 +127,14 @@ func Newgame(conf config.Configuration) *GameState {
 	game.PrevUpdate = time.Now()
 	game.CurrentView = GalaxyView
 	game.Camera.Zoom = 1
+	game.Camera.X = 500
+	game.Camera.Y = 500
 	game.CurrentSystemId = 0
 
 	// game.loadSaveGame()
 
 	// fmt.Println("Number of inSystems", game.inSystemHandler.Len())
-	return &game
+	return &game, nil
 }
 
 func (g *GameState) Layout(outsideWidth, outsideHeight int) (int, int) {

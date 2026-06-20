@@ -13,12 +13,21 @@ import (
 func main() {
 
 	conf := config.GetConfig()
-	imageutils.InitImageMaps(conf)
+	err := imageutils.InitImageMaps(conf)
+	if err != nil {
+		log.Fatalln(err)
+		return
+	}
 	gametext.InitFonts(conf)
 	ebiten.SetWindowSize(conf.ScreenSize.Width, conf.ScreenSize.Height)
 	ebiten.SetWindowTitle("Ebiten game practice")
 
-	game := gamestate.Newgame(conf)
+	game, err := gamestate.Newgame(conf)
+
+	if err != nil {
+		log.Fatalln(err)
+		return
+	}
 
 	if err := ebiten.RunGame(game); err != nil {
 		log.Fatal(err)
