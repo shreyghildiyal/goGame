@@ -10,7 +10,6 @@ import (
 	config "github.com/shreyghildiyal/goGame/configs"
 	"github.com/shreyghildiyal/goGame/constants"
 	drawfunctions "github.com/shreyghildiyal/goGame/drawFunctions"
-	"github.com/shreyghildiyal/goGame/drawing"
 	"github.com/shreyghildiyal/goGame/gameobjects"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
@@ -68,6 +67,9 @@ func (g *GameState) Update() error {
 	// 	g.Planets[i].Update(dt)
 	// }
 
+	// g.Camera.X -= 5 * dt.Seconds()
+	// g.Camera.Y -= 4 * dt.Seconds()
+
 	g.PrevUpdate = g.PrevUpdate.Add(dt)
 	return nil
 }
@@ -101,20 +103,9 @@ func Newgame(conf config.Configuration) (*GameState, error) {
 	game := GameState{}
 	game.Galaxy = gameobjects.Galaxy{
 		Stars: []gameobjects.Star{
-			{
-				Drawable: drawing.Drawable{
-					X:     0,
-					Y:     0,
-					Image: imageutils.GetImageFromMap("redDwarf"),
-				},
-			},
-			{
-				Drawable: drawing.Drawable{
-					X:     100,
-					Y:     100,
-					Image: imageutils.GetImageFromMap("redDwarf"),
-				},
-			},
+			gameobjects.NewStar(250, 250, 100, 100, 0, 1, imageutils.GetImageFromMap("redDwarf")),
+			gameobjects.NewStar(150, 150, 150, 150, 0, 2, imageutils.GetImageFromMap("redDwarf")),
+			gameobjects.NewStar(0, 0, 50, 50, 0, 2, imageutils.GetImageFromMap("planetType1")),
 		},
 	}
 	game.conf = conf
@@ -127,9 +118,10 @@ func Newgame(conf config.Configuration) (*GameState, error) {
 	game.PrevUpdate = time.Now()
 	game.CurrentView = GalaxyView
 	game.Camera.Zoom = 1
-	game.Camera.X = 500
-	game.Camera.Y = 500
+	game.Camera.X = 0
+	game.Camera.Y = 0
 	game.CurrentSystemId = 0
+	game.CurrentView = GalaxyView
 
 	// game.loadSaveGame()
 

@@ -11,5 +11,6 @@ func DrawGalaxy(screen *ebiten.Image, camera camera.Camera, galaxy gameobjects.G
 
 	for _, star := range galaxy.Stars {
 		star.Draw(screen, camera)
+		// _ = star
 	}
 }

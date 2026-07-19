@@ -9,10 +9,15 @@ type Star struct {
 	drawing.Drawable
 }
 
-func NewStar(x, y float64, id int, sprite *ebiten.Image) {
+func NewStar(x, y, targetHeight, targetWidth, rot float64, id int, sprite *ebiten.Image) Star {
 
 	s := Star{}
 	s.X = x
 	s.Y = y
+	s.TargetHeight = targetHeight
+	s.TargetWidth = targetWidth
 	s.Drawable.Image = sprite
+	s.RotAngle = rot
+
+	return s
 }

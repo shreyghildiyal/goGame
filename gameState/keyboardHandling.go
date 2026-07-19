@@ -11,7 +11,7 @@ import (
 
 func HandleKeyboardInput(dt time.Duration, g *GameState, cameraConf config.Camera) {
 
-	var timeMulti float64 = float64(dt.Microseconds()) / 1000000
+	var timeMulti float64 = dt.Seconds()
 
 	if ebiten.IsKeyPressed(ebiten.KeyUp) {
 		g.Camera.Y += cameraConf.SpeedY * timeMulti
