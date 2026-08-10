@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"image"
+	"image/jpeg"
 	"image/png"
 	"log"
 	"os"
@@ -18,6 +19,12 @@ var (
 	imagesMap map[string]*image.Image
 )
 
+// Register image decoders so image.Decode knows how to parse them
+func init() {
+	image.RegisterFormat("jpeg", "\xff\xd8", jpeg.Decode, jpeg.DecodeConfig)
+	image.RegisterFormat("png", "\x89PNG\r\n\x1a\n", png.Decode, png.DecodeConfig)
+}
+
 func getImage(imagePath string) image.Image {
 	existingImageFile, err := os.Open(imagePath)
 	if err != nil {
@@ -29,11 +36,14 @@ func getImage(imagePath string) image.Image {
 
 	// Alternatively, since we know it is a png already
 	// we can call png.Decode() directly
-	loadedImage, err := png.Decode(existingImageFile)
+
+	loadedImage, _, err := image.Decode(existingImageFile)
+
 	if err != nil {
 		// Handle error
 		log.Fatal(err)
 	}
+
 	// fmt.Println(loadedImage)
 	return loadedImage
 }
@@ -51,20 +61,6 @@ func GetImageFromMap(imageName string) *ebiten.Image {
 
 	return ebiten.NewImageFromImage(*imagesMap[imageName])
 }
-
-// func GetSystemImage(systemImageType string) *ebiten.Image {
-// 	fmt.Println("star image type", systemImageType)
-// 	// fmt.Println("Star images map is nil", starImagesMap == nil)
-// 	return ebiten.NewImageFromImage(*starImagesMap[systemImageType])
-// }
-
-// func GetPlanetImage(planetImageType string) *ebiten.Image {
-// 	fmt.Println("planetImagesMap is nil", planetImagesMap == nil)
-// 	for key, val := range planetImagesMap {
-// 		fmt.Println(key, ":", val)
-// 	}
-// 	return ebiten.NewImageFromImage(*planetImagesMap[planetImageType])
-// }
 
 func InitImageMaps(conf config.Configuration) error {
 

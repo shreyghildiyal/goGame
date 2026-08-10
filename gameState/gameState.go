@@ -104,9 +104,9 @@ func Newgame(conf config.Configuration) (*GameState, error) {
 	game := GameState{}
 	game.Galaxy = gameobjects.Galaxy{
 		Stars: []gameobjects.Star{
-			gameobjects.NewStar(1, drawing.Drawable{X: 250, Y: 250, TargetHeight: 100, TargetWidth: 100, Image: imageutils.GetImageFromMap("redDwarf"), RotAngle: 0}),
-			gameobjects.NewStar(2, drawing.Drawable{X: 150, Y: 250, TargetHeight: 150, TargetWidth: 150, Image: imageutils.GetImageFromMap("redDwarf"), RotAngle: 0}),
-			gameobjects.NewStar(3, drawing.Drawable{X: 50, Y: 250, TargetHeight: 50, TargetWidth: 50, Image: imageutils.GetImageFromMap("planetType1"), RotAngle: 0}),
+			gameobjects.NewStar(1, drawing.Drawable{X: 250, Y: 250, TargetHeight: 20, TargetWidth: 20, Image: imageutils.GetImageFromMap("redDwarf"), RotAngle: 0}),
+			gameobjects.NewStar(2, drawing.Drawable{X: 150, Y: 250, TargetHeight: 30, TargetWidth: 30, Image: imageutils.GetImageFromMap("redDwarf"), RotAngle: 0}),
+			gameobjects.NewStar(3, drawing.Drawable{X: 50, Y: 250, TargetHeight: 10, TargetWidth: 10, Image: imageutils.GetImageFromMap("planetType1"), RotAngle: 0}),
 		},
 	}
 	game.conf = conf
