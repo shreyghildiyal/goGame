@@ -10,6 +10,7 @@ import (
 	config "github.com/shreyghildiyal/goGame/configs"
 	"github.com/shreyghildiyal/goGame/constants"
 	drawfunctions "github.com/shreyghildiyal/goGame/drawFunctions"
+	"github.com/shreyghildiyal/goGame/drawing"
 	"github.com/shreyghildiyal/goGame/gameobjects"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
@@ -103,9 +104,9 @@ func Newgame(conf config.Configuration) (*GameState, error) {
 	game := GameState{}
 	game.Galaxy = gameobjects.Galaxy{
 		Stars: []gameobjects.Star{
-			gameobjects.NewStar(250, 250, 100, 100, 0, 1, imageutils.GetImageFromMap("redDwarf")),
-			gameobjects.NewStar(150, 150, 150, 150, 0, 2, imageutils.GetImageFromMap("redDwarf")),
-			gameobjects.NewStar(0, 0, 50, 50, 0, 2, imageutils.GetImageFromMap("planetType1")),
+			gameobjects.NewStar(1, drawing.Drawable{X: 250, Y: 250, TargetHeight: 100, TargetWidth: 100, Image: imageutils.GetImageFromMap("redDwarf"), RotAngle: 0}),
+			gameobjects.NewStar(2, drawing.Drawable{X: 150, Y: 250, TargetHeight: 150, TargetWidth: 150, Image: imageutils.GetImageFromMap("redDwarf"), RotAngle: 0}),
+			gameobjects.NewStar(3, drawing.Drawable{X: 50, Y: 250, TargetHeight: 50, TargetWidth: 50, Image: imageutils.GetImageFromMap("planetType1"), RotAngle: 0}),
 		},
 	}
 	game.conf = conf

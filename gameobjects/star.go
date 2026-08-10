@@ -1,23 +1,21 @@
 package gameobjects
 
 import (
-	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/shreyghildiyal/goGame/drawing"
 )
 
 type Star struct {
-	drawing.Drawable
+	// drawing.Drawable
+	GalaxySprite drawing.Drawable
+	SystemSprite drawing.Drawable
+	Id           int
 }
 
-func NewStar(x, y, targetHeight, targetWidth, rot float64, id int, sprite *ebiten.Image) Star {
+func NewStar(id int, galSprite drawing.Drawable) Star {
 
 	s := Star{}
-	s.X = x
-	s.Y = y
-	s.TargetHeight = targetHeight
-	s.TargetWidth = targetWidth
-	s.Drawable.Image = sprite
-	s.RotAngle = rot
+	s.Id = id
+	s.GalaxySprite = galSprite
 
 	return s
 }
