@@ -1,6 +1,8 @@
 package drawing
 
 import (
+	"log"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/shreyghildiyal/goGame/camera"
 )
@@ -57,4 +59,26 @@ func (d *Drawable) GetGeometry(screenWidth, screenHeight float64, camera camera.
 	geom.Translate(camera.Zoom*(d.X-camera.X), camera.Zoom*(d.Y-camera.Y))
 
 	return geom
+}
+
+func (d *Drawable) IsClicked(screenWidth, screenHeight float64, camera camera.Camera, mouseX, mouseY float64) bool {
+
+	// the idea is to translate the corners of the drawable based on camera etc. then check if mouseX and mouseY belong to the dawable range or not
+
+	geom := d.GetGeometry(screenWidth, screenHeight, camera)
+
+	minX, minY := geom.Apply(0, 0)
+	log.Println("min loc", minX, minY)
+	if mouseX < minX || mouseY < minY {
+		return false
+	}
+	bx := float64(d.Image.Bounds().Dx())
+	by := float64(d.Image.Bounds().Dy())
+	maxX, maxY := geom.Apply(bx, by)
+	log.Println("max loc", maxX, maxY)
+	if mouseX > maxX || mouseY > maxY {
+		return false
+	}
+
+	return true
 }
