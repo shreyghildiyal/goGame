@@ -26,6 +26,7 @@ func HandleMouseInput(dt time.Duration, g *GameState) {
 					g.CurrentView = SystemView
 					// set current system to the system in question
 					g.CurrentSystemId = star.Id
+					g.Camera.ResetSystemDefault()
 				}
 			}
 		}

@@ -1,8 +1,11 @@
 package drawfunctions
 
 import (
+	"fmt"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/shreyghildiyal/goGame/camera"
+	"github.com/shreyghildiyal/goGame/gameobjects"
 	// "github.com/shreyghildiyal/goGame/spaceEntities"
 )
 
@@ -10,45 +13,17 @@ func DrawSystem(
 	screen *ebiten.Image,
 	camera *camera.Camera,
 	currentSystemId int,
-	// entityHandler entities.EntityHandler,
-	// drawables components.ComponentHandler[*components.SystemDrawable],
-	// inSystemHandler components.ComponentHandler[*components.InSystem],
-) {
+	g gameobjects.Galaxy,
 
-	// for i := 0; i < drawables.Len(); i++ {
-	// 	systemDrawable, err := drawables.GetComponent(i)
-	// 	if err != nil {
-	// 		continue
-	// 	}
-	// 	// fmt.Printf("Drawable with Id %d exists\n", i)
-	// 	entityId := systemDrawable.GetEntityId()
-	// 	entity, err := entityHandler.GetEntity(entityId)
-	// 	if err != nil {
-	// 		continue
-	// 	}
-	// 	// fmt.Printf("entity %d retrieved for drawable %d\n", entityId, i)
-	// 	inSystemIds, err := entity.GetComponentIds(constants.INSYSTEM)
-	// 	if err != nil {
-	// 		// fmt.Printf("The entity %d is not in a system\n", entityId)
-	// 		continue
-	// 	}
-	// 	for _, inSysId := range inSystemIds {
-	// 		inSystemComponent, err := inSystemHandler.GetComponent(inSysId)
-	// 		if err != nil {
-	// 			// fmt.Printf("entity %d connected to  inSystem %d that isnt registered", entityId, inSysId)
-	// 			continue
-	// 		}
-	// 		if inSystemComponent.GetSystemId() == currentSystemId {
-	// 			// if systemCoordinates[]
-	// 			// drawObj := *systemDrawable
+) error {
+	star, found := g.Stars[currentSystemId]
 
-	// 			DrawSprite(screen, camera, (*components.Drawable)(systemDrawable), inSystemComponent.Coordinates)
-	// 		}
-	// 	}
-
-	// }
-
-	// DrawSystemStar(screen, system)
+	if !found {
+		return fmt.Errorf("No star found with given ID")
+	} else {
+		star.SystemSprite.Draw(screen, *camera)
+	}
+	return nil
 }
 
 // func DrawSystemStar(screen *ebiten.Image, system *spaceEntities.System) {

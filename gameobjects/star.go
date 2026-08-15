@@ -11,11 +11,12 @@ type Star struct {
 	Id           int
 }
 
-func NewStar(id int, galSprite drawing.Drawable) Star {
+func NewStar(id int, galSprite drawing.Drawable, systemSprite drawing.Drawable) Star {
 
 	s := Star{}
 	s.Id = id
 	s.GalaxySprite = galSprite
+	s.SystemSprite = systemSprite
 
 	return s
 }
