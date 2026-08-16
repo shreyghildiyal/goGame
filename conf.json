@@ -13,8 +13,8 @@
     },
     "imagesFile": "data/images.json",
     "camera": {
-        "speedX": 50,
-        "speedY": 50,
+        "speedX": -50,
+        "speedY": -50,
         "speedZoom": 1.1
     },
     "systemsConnectionFile": "data/systemConnections.json",
