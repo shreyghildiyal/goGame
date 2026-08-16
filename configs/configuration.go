@@ -35,6 +35,7 @@ type Configuration struct {
 	ScreenSize   ScreenSize    `json:"screenSize"`
 	EntitiesFile string        `json:"entitiesFile"`
 	SaveGameDir  string        `json:"saveGameDir"`
+	SaveGameFile string        `json:"saveGameFile"` // to be removed eventually
 	MarketConfs  MarketConfigs `json:"marketConfigs"`
 }
 

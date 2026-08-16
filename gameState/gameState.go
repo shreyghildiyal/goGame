@@ -10,7 +10,6 @@ import (
 	config "github.com/shreyghildiyal/goGame/configs"
 	"github.com/shreyghildiyal/goGame/constants"
 	drawfunctions "github.com/shreyghildiyal/goGame/drawFunctions"
-	"github.com/shreyghildiyal/goGame/drawing"
 	"github.com/shreyghildiyal/goGame/gameobjects"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
@@ -102,70 +101,74 @@ func Newgame(conf config.Configuration) (*GameState, error) {
 	}
 
 	game := GameState{}
-	game.Galaxy = gameobjects.Galaxy{
-		Stars: map[int]gameobjects.Star{
-			1: gameobjects.NewStar(
-				1,
-				"one",
-				drawing.Drawable{
-					X:            250,
-					Y:            250,
-					TargetHeight: 20,
-					TargetWidth:  20,
-					Image:        imageutils.GetImageFromMap("redDwarf"),
-					RotAngle:     0,
-				},
-				drawing.Drawable{
-					X:            0,
-					Y:            0,
-					TargetHeight: 100,
-					TargetWidth:  100,
-					Image:        imageutils.GetImageFromMap("redDwarf"),
-					RotAngle:     0,
-				},
-			),
-			2: gameobjects.NewStar(
-				2,
-				"two",
-				drawing.Drawable{
-					X:            150,
-					Y:            250,
-					TargetHeight: 30,
-					TargetWidth:  30,
-					Image:        imageutils.GetImageFromMap("redDwarf"),
-					RotAngle:     0,
-				},
-				drawing.Drawable{
-					X:            0,
-					Y:            0,
-					TargetHeight: 100,
-					TargetWidth:  100,
-					Image:        imageutils.GetImageFromMap("redDwarf"),
-					RotAngle:     0,
-				},
-			),
-			3: gameobjects.NewStar(
-				3,
-				"tree",
-				drawing.Drawable{
-					X:            50,
-					Y:            250,
-					TargetHeight: 10,
-					TargetWidth:  10,
-					Image:        imageutils.GetImageFromMap("redDwarf"),
-					RotAngle:     0,
-				},
-				drawing.Drawable{
-					X:            0,
-					Y:            0,
-					TargetHeight: 100,
-					TargetWidth:  100,
-					Image:        imageutils.GetImageFromMap("redDwarf"),
-					RotAngle:     0,
-				},
-			),
-		},
+	game.Galaxy, err = gameobjects.LoadGalaxy(conf.SaveGameFile, conf)
+	if err != nil {
+		return nil, err
 	}
+	// game.Galaxy = gameobjects.Galaxy{
+	// 	Stars: map[int]gameobjects.Star{
+	// 		1: gameobjects.NewStar(
+	// 			1,
+	// 			"one",
+	// 			drawing.Drawable{
+	// 				X:            250,
+	// 				Y:            250,
+	// 				TargetHeight: 20,
+	// 				TargetWidth:  20,
+	// 				Image:        imageutils.GetImageFromMap("redDwarf"),
+	// 				RotAngle:     0,
+	// 			},
+	// 			drawing.Drawable{
+	// 				X:            0,
+	// 				Y:            0,
+	// 				TargetHeight: 100,
+	// 				TargetWidth:  100,
+	// 				Image:        imageutils.GetImageFromMap("redDwarf"),
+	// 				RotAngle:     0,
+	// 			},
+	// 		),
+	// 		2: gameobjects.NewStar(
+	// 			2,
+	// 			"two",
+	// 			drawing.Drawable{
+	// 				X:            150,
+	// 				Y:            250,
+	// 				TargetHeight: 30,
+	// 				TargetWidth:  30,
+	// 				Image:        imageutils.GetImageFromMap("redDwarf"),
+	// 				RotAngle:     0,
+	// 			},
+	// 			drawing.Drawable{
+	// 				X:            0,
+	// 				Y:            0,
+	// 				TargetHeight: 100,
+	// 				TargetWidth:  100,
+	// 				Image:        imageutils.GetImageFromMap("redDwarf"),
+	// 				RotAngle:     0,
+	// 			},
+	// 		),
+	// 		3: gameobjects.NewStar(
+	// 			3,
+	// 			"tree",
+	// 			drawing.Drawable{
+	// 				X:            50,
+	// 				Y:            250,
+	// 				TargetHeight: 10,
+	// 				TargetWidth:  10,
+	// 				Image:        imageutils.GetImageFromMap("redDwarf"),
+	// 				RotAngle:     0,
+	// 			},
+	// 			drawing.Drawable{
+	// 				X:            0,
+	// 				Y:            0,
+	// 				TargetHeight: 100,
+	// 				TargetWidth:  100,
+	// 				Image:        imageutils.GetImageFromMap("redDwarf"),
+	// 				RotAngle:     0,
+	// 			},
+	// 		),
+	// 	},
+	// }
 	game.conf = conf
 	// game.Background = ebiten.NewImageFromImage(imageutils.GetImageFromMap(config.GetConfig().BackgroundImagePath))
 	game.Background = imageutils.GetImageFromMap("backgroundImage")

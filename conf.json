@@ -31,5 +31,6 @@
         "width": 800
     },
     "entitiesFile": "data/entities.csv",
-    "saveGameDir": "saves"
+    "saveGameDir": "saves",
+    "saveGameFile": "saves/quickSave.json"
 }

@@ -1,18 +1,82 @@
 package gameobjects
 
 import (
+	"fmt"
+
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/shreyghildiyal/goGame/camera"
+	config "github.com/shreyghildiyal/goGame/configs"
 	"github.com/shreyghildiyal/goGame/drawing"
 	"github.com/shreyghildiyal/goGame/gametext"
+	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
 
 type Star struct {
 	// drawing.Drawable
 	GalaxySprite drawing.Drawable
 	SystemSprite drawing.Drawable
-	Id           int
-	Name         string
+	Id           int    `json:"id"`
+	Name         string `json:"name"`
+}
+
+type StarSaveObj struct {
+	Id         int    `json:"id"`
+	Name       string `json:"name"`
+	StarType   string `json:"starType"`
+	GalaxyDisp struct {
+		X      float64 `json:"x"`
+		Y      float64 `json:"y"`
+		Height float64 `json:"height"`
+		Width  float64 `json:"width"`
+	} `json:"galaxyDisp"`
+	SystemDisp struct {
+		Height float64 `json:"height"`
+		Width  float64 `json:"width"`
+	} `json:"systemDisp"`
+}
+
+func validateSprite(d drawing.Drawable) error {
+	if d.TargetHeight < 1 || d.TargetWidth < 1 {
+		return fmt.Errorf("the sprite doesnt seem to have a valid size")
+	}
+	return nil
+}
+
+func (sso StarSaveObj) ToStar(conf config.Configuration) (Star, error) {
+	// TODO: these can and should be different images in the future. also we need to check for errors
+	galaxyImage := imageutils.GetImageFromMap(sso.StarType)
+	galSprite := drawing.Drawable{
+		X:            sso.GalaxyDisp.X,
+		Y:            sso.GalaxyDisp.Y,
+		Image:        galaxyImage,
+		TargetHeight: sso.GalaxyDisp.Height,
+		TargetWidth:  sso.GalaxyDisp.Width,
+		RotAngle:     0,
+	}
+	err := validateSprite(galSprite)
+	if err != nil {
+		return Star{}, err
+	}
+	systemImage := imageutils.GetImageFromMap(sso.StarType)
+	systemSprite := drawing.Drawable{
+		X:            0,
+		Y:            0,
+		Image:        systemImage,
+		TargetHeight: sso.SystemDisp.Height,
+		TargetWidth:  sso.SystemDisp.Width,
+		RotAngle:     0,
+	}
+	err = validateSprite(systemSprite)
+	if err != nil {
+		return Star{}, err
+	}
+	star := Star{
+		Name:         sso.Name,
+		Id:           sso.Id,
+		GalaxySprite: galSprite,
+		SystemSprite: systemSprite,
+	}
+	return star, nil
 }
 
 func (s Star) DrawGalaxySprite(screen *ebiten.Image, camera camera.Camera) {
