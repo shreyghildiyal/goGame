@@ -18,7 +18,10 @@ func main() {
 		log.Fatalln(err)
 		return
 	}
-	gametext.InitFonts(conf)
+	err = gametext.InitFonts(conf.Text)
+	if err != nil {
+		log.Fatal(err)
+	}
 	ebiten.SetWindowSize(conf.ScreenSize.Width, conf.ScreenSize.Height)
 	ebiten.SetWindowTitle("Ebiten game practice")
 

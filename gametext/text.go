@@ -1,22 +1,50 @@
 package gametext
 
 import (
-	"github.com/hajimehoshi/ebiten/v2/examples/resources/fonts"
+	"bytes"
+	"fmt"
+	"image/color"
+	"os"
+
+	"github.com/hajimehoshi/ebiten/v2/text/v2"
 	config "github.com/shreyghildiyal/goGame/configs"
-	"golang.org/x/image/font"
-	"golang.org/x/image/font/opentype"
 )
 
 var (
-	SpaceDisplayFont font.Face
+	// Global face reference matching your legacy pattern
+	SpaceDisplayFont *text.GoTextFace
+	SpaceColour      color.Color
 )
 
-func InitFonts(conf config.Configuration) {
+func loadFontBytes(fontPath string) ([]byte, error) {
+	// Read the raw file bytes into a []byte slice
+	fontBytes, err := os.ReadFile(fontPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read font file from %s: %w", fontPath, err)
+	}
 
-	tt, _ := opentype.Parse(fonts.MPlus1pRegular_ttf)
-	SpaceDisplayFont, _ = opentype.NewFace(tt, &opentype.FaceOptions{
-		Size:    float64(conf.Text.Size),
-		DPI:     conf.Text.Dpi,
-		Hinting: font.HintingFull,
-	})
+	return fontBytes, nil
+}
+
+// InitFonts accepts dynamic font bytes (or file paths) and target font size.
+func InitFonts(conf config.TextConf) error {
+
+	fontBytes, err := loadFontBytes(conf.FontFile)
+	if err != nil {
+		return err
+	}
+
+	// Parse OpenType/TrueType source
+	source, err := text.NewGoTextFaceSource(bytes.NewReader(fontBytes))
+	if err != nil {
+		return fmt.Errorf("failed to parse font: %w", err)
+	}
+
+	// Create face instance
+	SpaceDisplayFont = &text.GoTextFace{
+		Source: source,
+		Size:   conf.Size,
+	}
+
+	return nil
 }
