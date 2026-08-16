@@ -12,9 +12,9 @@ var config *Configuration
 var confMutex sync.Mutex
 
 type TextConf struct {
-	Colour   color.RGBA `json:"colour"`
-	Size     float64    `json:"size"`
-	FontFile string     `json:"fontFile"`
+	Colour   color.NRGBA `json:"colour"`
+	Size     float64     `json:"size"`
+	FontFile string      `json:"fontFile"`
 }
 
 type Camera struct {

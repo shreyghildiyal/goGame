@@ -10,7 +10,9 @@ import (
 func DrawGalaxy(screen *ebiten.Image, camera camera.Camera, galaxy gameobjects.Galaxy) {
 
 	for _, star := range galaxy.Stars {
-		star.GalaxySprite.Draw(screen, camera)
+		star.DrawGalaxySprite(screen, camera)
+		// star.GalaxySprite.Draw(screen, camera)
+		// star.GalaxySprite.DrawName(screen, camera, star.Name)
 		// _ = star
 	}
 }

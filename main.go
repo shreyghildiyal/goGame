@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -22,6 +23,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Printf("textFontSize: %f\ntextFontSource: %+v\n", gametext.SpaceDisplayFont.Size, gametext.SpaceDisplayFont.Source)
+
 	ebiten.SetWindowSize(conf.ScreenSize.Width, conf.ScreenSize.Height)
 	ebiten.SetWindowTitle("Ebiten game practice")
 

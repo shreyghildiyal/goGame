@@ -9,7 +9,6 @@
             "b": 255,
             "a": 255
         },
-        "dpi": 80,
         "fontFile": "data/Roboto/Roboto-VariableFont_wdth,wght.ttf"
     },
     "imagesFile": "data/images.json",

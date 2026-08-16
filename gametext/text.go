@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"image/color"
+	"log"
 	"os"
 
 	"github.com/hajimehoshi/ebiten/v2/text/v2"
@@ -29,6 +30,7 @@ func loadFontBytes(fontPath string) ([]byte, error) {
 // InitFonts accepts dynamic font bytes (or file paths) and target font size.
 func InitFonts(conf config.TextConf) error {
 
+	SpaceColour = conf.Colour
 	fontBytes, err := loadFontBytes(conf.FontFile)
 	if err != nil {
 		return err
@@ -40,6 +42,7 @@ func InitFonts(conf config.TextConf) error {
 		return fmt.Errorf("failed to parse font: %w", err)
 	}
 
+	log.Println("size", conf.Size)
 	// Create face instance
 	SpaceDisplayFont = &text.GoTextFace{
 		Source: source,
