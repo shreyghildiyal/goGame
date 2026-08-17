@@ -44,7 +44,10 @@ func validateSprite(d drawing.Drawable) error {
 
 func (sso StarSaveObj) ToStar(conf config.Configuration) (Star, error) {
 	// TODO: these can and should be different images in the future. also we need to check for errors
-	galaxyImage := imageutils.GetImageFromMap(sso.StarType)
+	galaxyImage, err := imageutils.GetImageFromMap(sso.StarType)
+	if err != nil {
+		return Star{}, nil
+	}
 	galSprite := drawing.Drawable{
 		X:            sso.GalaxyDisp.X,
 		Y:            sso.GalaxyDisp.Y,
@@ -53,11 +56,14 @@ func (sso StarSaveObj) ToStar(conf config.Configuration) (Star, error) {
 		TargetWidth:  sso.GalaxyDisp.Width,
 		RotAngle:     0,
 	}
-	err := validateSprite(galSprite)
+	err = validateSprite(galSprite)
 	if err != nil {
 		return Star{}, err
 	}
-	systemImage := imageutils.GetImageFromMap(sso.StarType)
+	systemImage, err := imageutils.GetImageFromMap(sso.StarType)
+	if err != nil {
+		return Star{}, nil
+	}
 	systemSprite := drawing.Drawable{
 		X:            0,
 		Y:            0,

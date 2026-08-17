@@ -22,11 +22,12 @@ type GalaxyDrawable Drawable
 
 func NewDrawable[T SystemDrawable | GalaxyDrawable](entityId int, entityType constants.EntityType, imageName string, height, width float64) T {
 
-	image := imageutils.GetImageFromMap(imageName)
+	image, _ := imageutils.GetImageFromMap(imageName)
 	scaleX := width / float64(image.Bounds().Dx())
 	scaleY := height / float64(image.Bounds().Dy())
+	img, _ := imageutils.GetImageFromMap(imageName)
 	drawable := T{
-		Image:         imageutils.GetImageFromMap(imageName),
+		Image:         img,
 		TargetHeight:  height,
 		TargetWidth:   width,
 		ScaleX:        scaleX,

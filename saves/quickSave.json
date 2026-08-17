@@ -45,5 +45,19 @@
                 "width": 100
             }
         }
+    },
+    "planets": {
+        "1": {
+            "id": 1,
+            "name": "planet1",
+            "starId": 1,
+            "planetType": "planet1",
+            "disp": {
+                "x": 100,
+                "y": 50,
+                "height": 30,
+                "width": 30
+            }
+        }
     }
 }

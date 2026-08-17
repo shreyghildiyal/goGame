@@ -48,7 +48,7 @@ func getImage(imagePath string) image.Image {
 	return loadedImage
 }
 
-func GetImageFromMap(imageName string) *ebiten.Image {
+func GetImageFromMap(imageName string) (*ebiten.Image, error) {
 
 	// fmt.Println("ImagesMap is nil", imagesMap == nil)
 	// if imagesMap == nil {
@@ -57,9 +57,10 @@ func GetImageFromMap(imageName string) *ebiten.Image {
 	fmt.Println("Image Name", imageName)
 	if _, found := imagesMap[imageName]; !found {
 		fmt.Println("Image Name", imageName, "not present in map")
+		return nil, fmt.Errorf("no image found with name %s", imageName)
 	}
 
-	return ebiten.NewImageFromImage(*imagesMap[imageName])
+	return ebiten.NewImageFromImage(*imagesMap[imageName]), nil
 }
 
 func InitImageMaps(conf config.Configuration) error {

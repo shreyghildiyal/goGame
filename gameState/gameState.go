@@ -171,7 +171,10 @@ func Newgame(conf config.Configuration) (*GameState, error) {
 	// }
 	game.conf = conf
 	// game.Background = ebiten.NewImageFromImage(imageutils.GetImageFromMap(config.GetConfig().BackgroundImagePath))
-	game.Background = imageutils.GetImageFromMap("backgroundImage")
+	game.Background, err = imageutils.GetImageFromMap("backgroundImage")
+	if err != nil {
+		return nil, err
+	}
 	// game.Systems = spaceEntities.LoadSystems()
 	// fmt.Println("Systems", game.Systems)
 	// spaceEntities.CreateWarpLines(game.Systems)
