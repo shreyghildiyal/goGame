@@ -17,6 +17,7 @@ type Star struct {
 	SystemSprite drawing.Drawable
 	Id           int    `json:"id"`
 	Name         string `json:"name"`
+	SystemRadius float64
 }
 
 type StarSaveObj struct {
@@ -30,8 +31,9 @@ type StarSaveObj struct {
 		Width  float64 `json:"width"`
 	} `json:"galaxyDisp"`
 	SystemDisp struct {
-		Height float64 `json:"height"`
-		Width  float64 `json:"width"`
+		Height       float64 `json:"height"`
+		Width        float64 `json:"width"`
+		SystemRadius float64 `json:"systemRadius"`
 	} `json:"systemDisp"`
 }
 
@@ -81,6 +83,7 @@ func (sso StarSaveObj) ToStar(conf config.Configuration) (Star, error) {
 		Id:           sso.Id,
 		GalaxySprite: galSprite,
 		SystemSprite: systemSprite,
+		SystemRadius: sso.SystemDisp.SystemRadius,
 	}
 	return star, nil
 }
@@ -99,4 +102,8 @@ func NewStar(id int, name string, galSprite drawing.Drawable, systemSprite drawi
 	s.SystemSprite = systemSprite
 	s.Name = name
 	return s
+}
+
+func (s Star) DrawSystemBoundary(screen *ebiten.Image, camera camera.Camera) {
+	panic("unimplemented")
 }

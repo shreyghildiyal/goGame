@@ -2,11 +2,12 @@ package drawfunctions
 
 import (
 	"fmt"
+	"image/color"
 
 	"github.com/hajimehoshi/ebiten/v2"
+	"github.com/hajimehoshi/ebiten/v2/vector"
 	"github.com/shreyghildiyal/goGame/camera"
 	"github.com/shreyghildiyal/goGame/gameobjects"
-	// "github.com/shreyghildiyal/goGame/spaceEntities"
 )
 
 func DrawSystem(
@@ -22,33 +23,14 @@ func DrawSystem(
 		return fmt.Errorf("No star found with given ID")
 	} else {
 		star.SystemSprite.Draw(screen, *camera)
+		DrawCircle(screen, *camera, star.SystemRadius)
 	}
 	return nil
 }
 
-// func DrawSystemStar(screen *ebiten.Image, system *spaceEntities.System) {
-
-// }
-
-// func DrawPlanet(screen *ebiten.Image, p *spaceEntities.Planet) {
-// 	// fmt.Println("Planet Name", p.Name)
-// 	x, y := p.Image.Size()
-// 	op := &ebiten.DrawImageOptions{}
-// 	op.GeoM.Translate(-float64(x/2), -float64(y/2))
-// 	op.GeoM.Scale(p.Scale, p.Scale)
-// 	op.GeoM.Translate(float64(x/2), float64(y/2))
-// 	op.GeoM.Translate(p.X, p.Y)
-
-// 	textX, textY := p.GetTextPosition(gametext.SpaceDisplayFont)
-
-// 	if p.Image == nil {
-// 		fmt.Println("image from", p.ImageLoc, "was nil somehow")
-// 	} else if gametext.SpaceDisplayFont == nil {
-// 		fmt.Println("font is nil")
-// 	} else {
-// 		screen.DrawImage(p.Image, op)
-// 		// fmt.Printf("text location %d, %d\n", int(p.X), int(p.Y)+y+mplusNormalFont.Metrics().Height.Ceil())
-// 		text.Draw(screen, p.Name, gametext.SpaceDisplayFont, textX, textY, config.GetConfig().Text.Colour)
-// 	}
-
-// }
+func DrawCircle(screen *ebiten.Image, camera camera.Camera, radius float64) {
+	cx, cy := camera.WorldToScreen(0, 0, float64(screen.Bounds().Dx()), float64(screen.Bounds().Dy()))
+	scaledRadius := float32(radius * camera.Zoom)
+	// fmt.Println("drawing circle", "cx", cx, "cy", cy, "rad", scaledRadius)
+	vector.StrokeCircle(screen, cx, cy, scaledRadius, 1, color.RGBA{0, 150, 255, 100}, true)
+}

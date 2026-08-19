@@ -12,7 +12,8 @@
             },
             "systemDisp": {
                 "height": 100,
-                "width": 100
+                "width": 100,
+                "systemRadius": 200
             }
         },
         "2": {
@@ -27,7 +28,8 @@
             },
             "systemDisp": {
                 "height": 100,
-                "width": 100
+                "width": 100,
+                "systemRadius": 300
             }
         },
         "3": {
@@ -42,7 +44,8 @@
             },
             "systemDisp": {
                 "height": 100,
-                "width": 100
+                "width": 100,
+                "systemRadius": 400
             }
         }
     },
