@@ -10,9 +10,9 @@ import (
 )
 
 type Drawable struct {
-	X            float64 // center of image/entity
-	Y            float64 // center of image/entity
-	TargetHeight float64
+	X            float64 `json:"x"` // center of image/entity
+	Y            float64 `json:"y"` // center of image/entity
+	TargetHeight float64 ``
 	TargetWidth  float64
 	Image        *ebiten.Image
 	RotAngle     float64 // angle in radians to rotate by

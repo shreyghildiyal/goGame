@@ -7,7 +7,7 @@ import (
 	// "github.com/shreyghildiyal/goGame/spaceEntities"
 )
 
-func DrawGalaxy(screen *ebiten.Image, camera camera.Camera, galaxy gameobjects.Galaxy) {
+func DrawGalaxy(screen *ebiten.Image, camera camera.Camera, galaxy gameobjects.Galaxy) error {
 
 	for _, star := range galaxy.Stars {
 		star.DrawGalaxySprite(screen, camera)
@@ -15,4 +15,5 @@ func DrawGalaxy(screen *ebiten.Image, camera camera.Camera, galaxy gameobjects.G
 		// star.GalaxySprite.DrawName(screen, camera, star.Name)
 		// _ = star
 	}
+	return nil
 }
