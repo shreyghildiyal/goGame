@@ -1,14 +1,12 @@
 package gamestate
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
 	"github.com/shreyghildiyal/goGame/camera"
 	config "github.com/shreyghildiyal/goGame/configs"
-	"github.com/shreyghildiyal/goGame/constants"
 	drawfunctions "github.com/shreyghildiyal/goGame/drawFunctions"
 	"github.com/shreyghildiyal/goGame/gameobjects"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
@@ -91,9 +89,6 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 }
 
 func Newgame(conf config.Configuration) (*GameState, error) {
-
-	fmt.Println("planet", constants.PLANET)
-	fmt.Println("star", constants.STAR)
 
 	err := imageutils.InitImageMaps(conf)
 	if err != nil {

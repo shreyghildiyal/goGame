@@ -1,18 +1,5 @@
 package gamestate
 
-import (
-	"github.com/shreyghildiyal/goGame/components"
-)
-
-func (gs *GameState) loadSaveGame() {
-
-}
-
-type DummyComponents struct {
-	SystemDrawables components.ComponentHandler[*components.SystemDrawable] `json:"systemDrawables"`
-	GalaxyDrawables components.ComponentHandler[*components.GalaxyDrawable] `json:"galaxyDrawables"`
-}
-
 func (gs *GameState) saveGame() {
 
 	// jsonStr, err := json.Marshal(
