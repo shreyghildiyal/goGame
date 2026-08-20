@@ -37,6 +37,28 @@ type StarSaveObj struct {
 	} `json:"systemDisp"`
 }
 
+func (sso StarSaveObj) GetSystemDrawables(conf config.Configuration) ([]drawing.Drawable, error) {
+	systemImage, err := imageutils.GetImageFromMap(sso.StarType)
+	if err != nil {
+		return nil, nil
+	}
+	systemSprite := drawing.Drawable{
+		X:            0,
+		Y:            0,
+		Image:        systemImage,
+		TargetHeight: sso.SystemDisp.Height,
+		TargetWidth:  sso.SystemDisp.Width,
+		RotAngle:     0,
+	}
+	err = validateSprite(systemSprite)
+	if err != nil {
+		return nil, err
+	}
+
+	ret := []drawing.Drawable{systemSprite}
+	return ret, nil
+}
+
 func validateSprite(d drawing.Drawable) error {
 	if d.TargetHeight < 1 || d.TargetWidth < 1 {
 		return fmt.Errorf("the sprite doesnt seem to have a valid size")
@@ -44,11 +66,35 @@ func validateSprite(d drawing.Drawable) error {
 	return nil
 }
 
+func (sso StarSaveObj) GetGalaxyDrawables(conf config.Configuration) ([]drawing.Drawable, error) {
+
+	galaxyImage, err := imageutils.GetImageFromMap(sso.StarType)
+	if err != nil {
+		return nil, err
+	}
+	galSprite := drawing.Drawable{
+		X:            sso.GalaxyDisp.X,
+		Y:            sso.GalaxyDisp.Y,
+		Image:        galaxyImage,
+		TargetHeight: sso.GalaxyDisp.Height,
+		TargetWidth:  sso.GalaxyDisp.Width,
+		RotAngle:     0,
+	}
+
+	err = validateSprite(galSprite)
+	if err != nil {
+		return nil, err
+	}
+
+	ret := []drawing.Drawable{galSprite}
+	return ret, nil
+}
+
 func (sso StarSaveObj) ToStar(conf config.Configuration) (Star, error) {
 	// TODO: these can and should be different images in the future. also we need to check for errors
 	galaxyImage, err := imageutils.GetImageFromMap(sso.StarType)
 	if err != nil {
-		return Star{}, nil
+		return Star{}, err
 	}
 	galSprite := drawing.Drawable{
 		X:            sso.GalaxyDisp.X,

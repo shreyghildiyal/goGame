@@ -9,6 +9,7 @@ import (
 	"github.com/shreyghildiyal/goGame/camera"
 	config "github.com/shreyghildiyal/goGame/configs"
 	drawfunctions "github.com/shreyghildiyal/goGame/drawFunctions"
+	"github.com/shreyghildiyal/goGame/drawing"
 	"github.com/shreyghildiyal/goGame/gameobjects"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
@@ -24,13 +25,14 @@ const (
 type GameState struct {
 	conf config.Configuration
 
-	Background      *ebiten.Image
-	CurrentSystemId string
-	PrevUpdate      time.Time
-	CurrentView     ViewType
-	Camera          camera.Camera
-	Keys            []ebiten.Key
-	Galaxy          gameobjects.Galaxy
+	Background       *ebiten.Image
+	CurrentSystemId  string
+	PrevUpdate       time.Time
+	CurrentView      ViewType
+	Camera           camera.Camera
+	Keys             []ebiten.Key
+	Galaxy           gameobjects.Galaxy
+	DrawableRegistry drawing.DrawableRegistry
 }
 
 func (g *GameState) Update() error {
@@ -53,7 +55,7 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 
 	switch g.CurrentView {
 	case GalaxyView:
-		err := drawfunctions.DrawGalaxy(screen, g.Camera, g.Galaxy)
+		err := drawfunctions.DrawGalaxy(screen, g.Camera, g.Galaxy, g.DrawableRegistry)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -77,7 +79,7 @@ func Newgame(conf config.Configuration) (*GameState, error) {
 	}
 
 	game := GameState{}
-	game.Galaxy, err = gameobjects.LoadGalaxy(conf.SaveGameFile, conf)
+	game.Galaxy, game.DrawableRegistry, err = gameobjects.LoadGalaxy(conf.SaveGameFile, conf)
 	if err != nil {
 		return nil, err
 	}
