@@ -25,7 +25,7 @@ type GameState struct {
 	conf config.Configuration
 
 	Background      *ebiten.Image
-	CurrentSystemId int
+	CurrentSystemId string
 	PrevUpdate      time.Time
 	CurrentView     ViewType
 	Camera          camera.Camera
@@ -94,7 +94,7 @@ func Newgame(conf config.Configuration) (*GameState, error) {
 	game.Camera.Zoom = 1
 	game.Camera.X = 0
 	game.Camera.Y = 0
-	game.CurrentSystemId = 0
+	game.CurrentSystemId = ""
 	game.CurrentView = GalaxyView
 
 	// game.loadSaveGame()

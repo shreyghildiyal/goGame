@@ -8,16 +8,16 @@ import (
 
 type Planet struct {
 	Sprite     drawing.Drawable
-	Id         int
+	Id         string
 	Name       string
-	StarId     int
+	StarId     string
 	PlanetType string
 }
 
 type PlanetSaveObj struct {
-	Id         int    `json:"id"`
+	Id         string `json:"id"`
 	Name       string `json:"name"`
-	StarId     int    `json:"starId"`
+	StarId     string `json:"starId"`
 	PlanetType string `json:"planetType"`
 	Disp       struct {
 		X      float64 `json:"x"`

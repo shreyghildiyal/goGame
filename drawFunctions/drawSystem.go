@@ -13,14 +13,14 @@ import (
 func DrawSystem(
 	screen *ebiten.Image,
 	camera *camera.Camera,
-	currentSystemId int,
+	currentSystemId string,
 	g gameobjects.Galaxy,
 
 ) error {
 	star, found := g.Stars[currentSystemId]
 
 	if !found {
-		return fmt.Errorf("No star found with given ID")
+		return fmt.Errorf("No star found with given ID %s", currentSystemId)
 	} else {
 		star.SystemSprite.Draw(screen, *camera)
 		DrawCircle(screen, *camera, star.SystemRadius)

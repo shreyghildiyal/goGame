@@ -9,13 +9,13 @@ import (
 )
 
 type Galaxy struct {
-	Stars   map[int]Star   `json:"stars"`
-	Planets map[int]Planet `json:"planets"`
+	Stars   map[string]Star   `json:"stars"`
+	Planets map[string]Planet `json:"planets"`
 }
 
 type GalaxySaveObj struct {
-	Stars   map[int]StarSaveObj   `json:"stars"`
-	Planets map[int]PlanetSaveObj `json:"planets"`
+	Stars   map[string]StarSaveObj   `json:"stars"`
+	Planets map[string]PlanetSaveObj `json:"planets"`
 }
 
 func LoadGalaxy(saveFile string, conf config.Configuration) (Galaxy, error) {
@@ -31,8 +31,8 @@ func LoadGalaxy(saveFile string, conf config.Configuration) (Galaxy, error) {
 	}
 
 	gal := Galaxy{
-		Stars:   map[int]Star{},
-		Planets: map[int]Planet{},
+		Stars:   map[string]Star{},
+		Planets: map[string]Planet{},
 	}
 
 	if len(saveGal.Stars) < 1 {
@@ -41,6 +41,7 @@ func LoadGalaxy(saveFile string, conf config.Configuration) (Galaxy, error) {
 
 	for id, st := range saveGal.Stars {
 		gal.Stars[id], err = st.ToStar(conf)
+		fmt.Printf("DEBUG set gal.Stars[%s]\n", id)
 		if err != nil {
 			return Galaxy{}, err
 		}

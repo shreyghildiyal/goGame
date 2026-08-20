@@ -15,13 +15,13 @@ type Star struct {
 	// drawing.Drawable
 	GalaxySprite drawing.Drawable
 	SystemSprite drawing.Drawable
-	Id           int    `json:"id"`
+	Id           string `json:"id"`
 	Name         string `json:"name"`
 	SystemRadius float64
 }
 
 type StarSaveObj struct {
-	Id         int    `json:"id"`
+	Id         string `json:"id"`
 	Name       string `json:"name"`
 	StarType   string `json:"starType"`
 	GalaxyDisp struct {
@@ -94,7 +94,7 @@ func (s Star) DrawGalaxySprite(screen *ebiten.Image, camera camera.Camera) {
 	// panic("unimplemented")
 }
 
-func NewStar(id int, name string, galSprite drawing.Drawable, systemSprite drawing.Drawable) Star {
+func NewStar(id string, name string, galSprite drawing.Drawable, systemSprite drawing.Drawable) Star {
 
 	s := Star{}
 	s.Id = id

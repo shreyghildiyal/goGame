@@ -1,7 +1,7 @@
 {
     "stars": {
-        "1": {
-            "id": 1,
+        "star1": {
+            "id": "star1",
             "name": "one",
             "starType": "redDwarf",
             "galaxyDisp": {
@@ -16,8 +16,8 @@
                 "systemRadius": 200
             }
         },
-        "2": {
-            "id": 2,
+        "star2": {
+            "id": "star2",
             "name": "two",
             "starType": "redDwarf",
             "galaxyDisp": {
@@ -32,8 +32,8 @@
                 "systemRadius": 300
             }
         },
-        "3": {
-            "id": 3,
+        "star3": {
+            "id": "star3",
             "name": "tree",
             "starType": "redDwarf",
             "galaxyDisp": {
@@ -50,10 +50,10 @@
         }
     },
     "planets": {
-        "1": {
-            "id": 1,
+        "planet1": {
+            "id": "planet1",
             "name": "planet1",
-            "starId": 1,
+            "starId": "star1",
             "planetType": "planet1",
             "disp": {
                 "x": 100,
