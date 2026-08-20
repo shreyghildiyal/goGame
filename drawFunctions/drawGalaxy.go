@@ -6,7 +6,6 @@ import (
 	"github.com/shreyghildiyal/goGame/drawing"
 	"github.com/shreyghildiyal/goGame/gameobjects"
 	"github.com/shreyghildiyal/goGame/gametext"
-	// "github.com/shreyghildiyal/goGame/spaceEntities"
 )
 
 func DrawGalaxy(screen *ebiten.Image, camera camera.Camera, galaxy gameobjects.Galaxy, drawReg drawing.DrawableRegistry) error {

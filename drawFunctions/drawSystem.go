@@ -7,6 +7,7 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/vector"
 	"github.com/shreyghildiyal/goGame/camera"
+	"github.com/shreyghildiyal/goGame/drawing"
 	"github.com/shreyghildiyal/goGame/gameobjects"
 )
 
@@ -15,14 +16,21 @@ func DrawSystem(
 	camera *camera.Camera,
 	currentSystemId string,
 	g gameobjects.Galaxy,
-
+	drawReg drawing.DrawableRegistry,
 ) error {
 	star, found := g.Stars[currentSystemId]
 
 	if !found {
 		return fmt.Errorf("No star found with given ID %s", currentSystemId)
 	} else {
-		star.SystemSprite.Draw(screen, *camera)
+		drawables, err := drawReg.GetSystemDrawables(star.Id)
+		if err != nil {
+			return err
+		}
+		for _, drawable := range drawables {
+			drawable.Draw(screen, *camera)
+		}
+		// star.SystemSprite.Draw(screen, *camera)
 		DrawCircle(screen, *camera, star.SystemRadius)
 	}
 	return nil

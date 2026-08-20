@@ -61,7 +61,7 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 		}
 	case SystemView:
 		// fmt.Println("Drawing System")
-		err := drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Galaxy)
+		err := drawfunctions.DrawSystem(screen, &g.Camera, g.CurrentSystemId, g.Galaxy, g.DrawableRegistry)
 		if err != nil {
 			log.Fatal(err)
 		}
