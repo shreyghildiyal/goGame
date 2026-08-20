@@ -37,20 +37,33 @@ func LoadGalaxy(saveFile string, conf config.Configuration) (Galaxy, drawing.Dra
 	}
 	drawReg := drawing.NewDrawableRegistry()
 
-	g, dr, err := loadStars(saveGal, gal, conf, drawReg)
+	gal, dr, err := loadStars(saveGal, gal, conf, drawReg)
 	if err != nil {
-		return g, dr, err
+		return gal, dr, err
 	}
 
 	if len(saveGal.Planets) < 1 {
 		return Galaxy{}, drawing.DrawableRegistry{}, fmt.Errorf("The save file had no planets in it")
 	}
 
-	for id, st := range saveGal.Planets {
-		gal.Planets[id], err = st.ToPlanet(conf)
+	for id, pt := range saveGal.Planets {
+		gal.Planets[id], err = pt.ToPlanet(conf)
 		if err != nil {
 			return Galaxy{}, drawing.DrawableRegistry{}, err
 		}
+
+		if star, found := gal.Stars[pt.StarId]; found {
+			star.Planets = append(star.Planets, pt.Id)
+			gal.Stars[pt.StarId] = star
+		} else {
+			return gal, drawReg, fmt.Errorf("No star with Id %s present. Planet with Id %s apparently belongs to it", pt.StarId, pt.Id)
+		}
+
+		sysDrawables, err := pt.GetSystemDrawables(conf)
+		if err != nil {
+			return Galaxy{}, drawing.DrawableRegistry{}, err
+		}
+		drawReg.AddSystemDrawables(pt.Id, sysDrawables)
 
 	}
 
@@ -80,5 +93,5 @@ func loadStars(saveGal GalaxySaveObj, gal Galaxy, conf config.Configuration, dra
 		}
 		drawReg.AddSystemDrawables(st.Id, systemDrawables)
 	}
-	return Galaxy{}, drawing.DrawableRegistry{}, nil
+	return gal, drawReg, nil
 }

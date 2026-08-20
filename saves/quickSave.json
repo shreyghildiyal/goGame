@@ -54,7 +54,7 @@
             "id": "planet1",
             "name": "planet1",
             "starId": "star1",
-            "planetType": "planet1",
+            "planetType": "planetType1",
             "disp": {
                 "x": 100,
                 "y": 50,

@@ -30,6 +30,17 @@ func DrawSystem(
 		for _, drawable := range drawables {
 			drawable.Draw(screen, *camera)
 		}
+
+		for _, planetId := range star.Planets {
+			drawables, err := drawReg.GetSystemDrawables(planetId)
+			if err != nil {
+				return err
+			}
+			for _, drawable := range drawables {
+				drawable.Draw(screen, *camera)
+			}
+			DrawCircle(screen, *camera, g.Planets[planetId].SysRad)
+		}
 		// star.SystemSprite.Draw(screen, *camera)
 		DrawCircle(screen, *camera, star.SystemRadius)
 	}

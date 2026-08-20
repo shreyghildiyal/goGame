@@ -1,17 +1,21 @@
 package gameobjects
 
 import (
+	"math"
+
 	config "github.com/shreyghildiyal/goGame/configs"
 	"github.com/shreyghildiyal/goGame/drawing"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
 
 type Planet struct {
-	Sprite     drawing.Drawable
 	Id         string
 	Name       string
 	StarId     string
 	PlanetType string
+	SysX       float64
+	SysY       float64
+	SysRad     float64
 }
 
 type PlanetSaveObj struct {
@@ -27,25 +31,36 @@ type PlanetSaveObj struct {
 	} `json:"disp"`
 }
 
-func (p PlanetSaveObj) ToPlanet(conf config.Configuration) (Planet, error) {
-
-	planetImage, err := imageutils.GetImageFromMap(p.PlanetType)
-	if err != nil {
-		return Planet{}, nil
-	}
-	planetSprite := drawing.Drawable{
-		X:            p.Disp.X,
-		Y:            p.Disp.Y,
-		TargetHeight: p.Disp.Height,
-		TargetWidth:  p.Disp.Width,
-		Image:        planetImage,
-	}
+func (pso PlanetSaveObj) ToPlanet(conf config.Configuration) (Planet, error) {
 
 	pl := Planet{}
-	pl.Id = p.Id
-	pl.Name = p.Name
-	pl.PlanetType = p.PlanetType
-	pl.Sprite = planetSprite
-
+	pl.Id = pso.Id
+	pl.Name = pso.Name
+	pl.PlanetType = pso.PlanetType
+	pl.SysX = pso.Disp.X
+	pl.SysY = pso.Disp.Y
+	pl.SysRad = math.Sqrt((pl.SysX * pl.SysX) + (pl.SysY * pl.SysY))
 	return pl, nil
+}
+
+func (pso PlanetSaveObj) GetSystemDrawables(conf config.Configuration) ([]drawing.Drawable, error) {
+	systemImage, err := imageutils.GetImageFromMap(pso.PlanetType)
+	if err != nil {
+		return nil, nil
+	}
+	systemSprite := drawing.Drawable{
+		X:            pso.Disp.X,
+		Y:            pso.Disp.Y,
+		Image:        systemImage,
+		TargetHeight: pso.Disp.Height,
+		TargetWidth:  pso.Disp.Width,
+		RotAngle:     0,
+	}
+	err = validateSprite(systemSprite)
+	if err != nil {
+		return nil, err
+	}
+
+	ret := []drawing.Drawable{systemSprite}
+	return ret, nil
 }

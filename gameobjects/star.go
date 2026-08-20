@@ -13,11 +13,12 @@ import (
 type Star struct {
 	// drawing.Drawable
 
-	Id           string `json:"id"`
-	Name         string `json:"name"`
+	Id           string
+	Name         string
 	SystemRadius float64
 	GalX         float64
 	GalY         float64
+	Planets      []string
 }
 
 type StarSaveObj struct {
@@ -98,6 +99,7 @@ func (sso StarSaveObj) ToStar(conf config.Configuration) (Star, error) {
 		SystemRadius: sso.SystemDisp.SystemRadius,
 		GalX:         sso.GalaxyDisp.X,
 		GalY:         sso.GalaxyDisp.Y,
+		Planets:      []string{},
 	}
 	return star, nil
 }
