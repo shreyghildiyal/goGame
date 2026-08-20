@@ -18,16 +18,20 @@ func HandleMouseInput(dt time.Duration, g *GameState) {
 	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
 		if g.CurrentView == GalaxyView {
 			fmt.Println("Just licked left mouse button", mouseX, mouseY)
-			for _, star := range g.Galaxy.Stars {
-				// cursorX, cursorY := ebiten.CursorPosition()
-				if star.GalaxySprite.IsClicked(float64(g.conf.ScreenSize.Width), float64(g.conf.ScreenSize.Height), g.Camera, float64(mouseX), float64(mouseY)) {
-					fmt.Println("System", star.Id, "was clicked")
-					// set view to system view
-					g.CurrentView = SystemView
-					// set current system to the system in question
-					g.CurrentSystemId = star.Id
-					g.Camera.ResetSystemDefault()
+			for starId, star := range g.Galaxy.Stars {
+				starDrawables, _ := g.DrawableRegistry.GetGalaxyDrawables(starId)
+				for _, drawable := range starDrawables {
+					if drawable.IsClicked(float64(g.conf.ScreenSize.Width), float64(g.conf.ScreenSize.Height), g.Camera, float64(mouseX), float64(mouseY)) {
+						fmt.Println("System", star.Id, "was clicked")
+						// set view to system view
+						g.CurrentView = SystemView
+						// set current system to the system in question
+						g.CurrentSystemId = star.Id
+						g.Camera.ResetSystemDefault()
+					}
 				}
+				// cursorX, cursorY := ebiten.CursorPosition()
+
 			}
 		}
 	}

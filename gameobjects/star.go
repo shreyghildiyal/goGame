@@ -7,17 +7,17 @@ import (
 	"github.com/shreyghildiyal/goGame/camera"
 	config "github.com/shreyghildiyal/goGame/configs"
 	"github.com/shreyghildiyal/goGame/drawing"
-	"github.com/shreyghildiyal/goGame/gametext"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
 )
 
 type Star struct {
 	// drawing.Drawable
-	GalaxySprite drawing.Drawable
-	SystemSprite drawing.Drawable
+
 	Id           string `json:"id"`
 	Name         string `json:"name"`
 	SystemRadius float64
+	GalX         float64
+	GalY         float64
 }
 
 type StarSaveObj struct {
@@ -91,61 +91,21 @@ func (sso StarSaveObj) GetGalaxyDrawables(conf config.Configuration) ([]drawing.
 }
 
 func (sso StarSaveObj) ToStar(conf config.Configuration) (Star, error) {
-	// TODO: these can and should be different images in the future. also we need to check for errors
-	galaxyImage, err := imageutils.GetImageFromMap(sso.StarType)
-	if err != nil {
-		return Star{}, err
-	}
-	galSprite := drawing.Drawable{
-		X:            sso.GalaxyDisp.X,
-		Y:            sso.GalaxyDisp.Y,
-		Image:        galaxyImage,
-		TargetHeight: sso.GalaxyDisp.Height,
-		TargetWidth:  sso.GalaxyDisp.Width,
-		RotAngle:     0,
-	}
-	err = validateSprite(galSprite)
-	if err != nil {
-		return Star{}, err
-	}
-	systemImage, err := imageutils.GetImageFromMap(sso.StarType)
-	if err != nil {
-		return Star{}, nil
-	}
-	systemSprite := drawing.Drawable{
-		X:            0,
-		Y:            0,
-		Image:        systemImage,
-		TargetHeight: sso.SystemDisp.Height,
-		TargetWidth:  sso.SystemDisp.Width,
-		RotAngle:     0,
-	}
-	err = validateSprite(systemSprite)
-	if err != nil {
-		return Star{}, err
-	}
+
 	star := Star{
 		Name:         sso.Name,
 		Id:           sso.Id,
-		GalaxySprite: galSprite,
-		SystemSprite: systemSprite,
 		SystemRadius: sso.SystemDisp.SystemRadius,
+		GalX:         sso.GalaxyDisp.X,
+		GalY:         sso.GalaxyDisp.Y,
 	}
 	return star, nil
-}
-
-func (s Star) DrawGalaxySprite(screen *ebiten.Image, camera camera.Camera) {
-	s.GalaxySprite.Draw(screen, camera)
-	s.GalaxySprite.DrawName(s.Name, gametext.SpaceDisplayFont, gametext.SpaceColour, screen, camera)
-	// panic("unimplemented")
 }
 
 func NewStar(id string, name string, galSprite drawing.Drawable, systemSprite drawing.Drawable) Star {
 
 	s := Star{}
 	s.Id = id
-	s.GalaxySprite = galSprite
-	s.SystemSprite = systemSprite
 	s.Name = name
 	return s
 }
