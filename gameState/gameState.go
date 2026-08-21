@@ -12,6 +12,7 @@ import (
 	"github.com/shreyghildiyal/goGame/drawing"
 	"github.com/shreyghildiyal/goGame/gameobjects"
 	imageutils "github.com/shreyghildiyal/goGame/imageUtils"
+	"github.com/shreyghildiyal/goGame/ui"
 )
 
 type ViewType string
@@ -25,19 +26,22 @@ const (
 type GameState struct {
 	conf config.Configuration
 
-	Background       *ebiten.Image
-	CurrentSystemId  string
-	PrevUpdate       time.Time
-	CurrentView      ViewType
-	Camera           camera.Camera
-	Keys             []ebiten.Key
-	Galaxy           gameobjects.Galaxy
-	DrawableRegistry drawing.DrawableRegistry
+	Background          *ebiten.Image
+	CurrentSystemId     string
+	PrevUpdateTimestamp time.Time
+	CurrentView         ViewType
+	Camera              camera.Camera
+	Keys                []ebiten.Key
+	Galaxy              gameobjects.Galaxy
+	DrawableRegistry    drawing.DrawableRegistry
+	GlobalUI            ui.GlobalUI
+	Tick                int
+	PrevTickTimestamp   time.Time
 }
 
 func (g *GameState) Update() error {
 
-	dt := time.Since(g.PrevUpdate)
+	dt := time.Since(g.PrevUpdateTimestamp)
 
 	HandleKeyboardInput(dt, g, g.conf.Camera)
 
@@ -45,7 +49,14 @@ func (g *GameState) Update() error {
 
 	g.Keys = inpututil.AppendPressedKeys(g.Keys[:0])
 
-	g.PrevUpdate = g.PrevUpdate.Add(dt)
+	g.PrevUpdateTimestamp = g.PrevUpdateTimestamp.Add(dt)
+
+	if time.Since(g.PrevTickTimestamp).Seconds() > 1 {
+		g.PrevTickTimestamp = time.Now()
+		g.Tick++
+
+	}
+
 	return nil
 }
 
@@ -69,6 +80,8 @@ func (g *GameState) Draw(screen *ebiten.Image) {
 		drawfunctions.DrawMenu(screen)
 	}
 
+	g.GlobalUI.Draw(screen, g.Camera, g.Galaxy, g.Tick)
+
 }
 
 func Newgame(conf config.Configuration) (*GameState, error) {
@@ -91,13 +104,16 @@ func Newgame(conf config.Configuration) (*GameState, error) {
 		return nil, err
 	}
 
-	game.PrevUpdate = time.Now()
+	game.PrevUpdateTimestamp = time.Now()
+	game.PrevTickTimestamp = game.PrevUpdateTimestamp
 	game.CurrentView = GalaxyView
 	game.Camera.Zoom = 1
 	game.Camera.X = 0
 	game.Camera.Y = 0
 	game.CurrentSystemId = ""
 	game.CurrentView = GalaxyView
+	game.Tick = 0
+	game.GlobalUI = ui.GlobalUI{}
 
 	// game.loadSaveGame()
 
