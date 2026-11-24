@@ -1,4 +1,17 @@
-# goGame
+# Objective
+
+I am trying to create a simulation game. focusing on the economics on a galactic scale. The player controls an empire while other AI players will control the other empires. 
+Each empire controls stars and the planets orbiting the stars. 
+
+The basic economic unit is a 'pop' 
+
+various goods will be produced, traded and consumed by the pops and various other entities.
+
+The empires will compete for dominance. Through warfare, trade and industrial might.
+
+There will be social dynamics too with pops promoting/demoting and getting angry/happy based on standard of living
+
+# rambling below
 
 it looks like I have forgotten what most of this code did. It seems I was looking into some kind of an ECS system.
 
